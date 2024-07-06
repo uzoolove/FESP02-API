@@ -3,6 +3,7 @@ import { MongoClient } from 'mongodb';
 async function getDB(clientId){
   const url = `mongodb://localhost`;
   // const url = `mongodb+srv://ins:ins12%24%24@openmarket.5ppv889.mongodb.net/?retryWrites=true&w=majority`;
+  // const url = `mongodb://yongssam:yongssam12%21%21@db.fesp.shop/00-ins`;
 
   console.log(`DB 접속 시도: ${url}`, clientId);
   

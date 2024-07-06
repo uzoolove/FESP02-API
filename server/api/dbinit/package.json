@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dbinit:sample": "node ./init.js sample 00-sample",
+    "dbinit:sample": "node ./init.js sample 00-ins",
     "dbinit:team": "node ./init.js team 01-board"
   },
   "keywords": [],

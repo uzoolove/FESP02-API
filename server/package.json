@@ -17,13 +17,7 @@
     "start": "cross-env NODE_ENV=production node -r dotenv/config ./bin/www-prod.js",
     "dev": "cross-env NODE_ENV=development node -r dotenv/config ./bin/www-https.js",
     "local": "cross-env NODE_ENV=local nodemon -r dotenv/config ./bin/www.js",
-    "aws": "cross-env NODE_ENV=aws node -r dotenv/config ./bin/www-aws.js",
-    "dbinit:local": "cross-env NODE_ENV=local node -r dotenv/config ./samples/dbinit.js ins",
-    "dbinit:prod": "cross-env NODE_ENV=production node -r dotenv/config ./samples/dbinit.js ins",
-    "dbinit:aws:team": "cross-env NODE_ENV=edutube node -r dotenv/config ./samples/dbinit.js team",
-    "dbinit:local:team": "cross-env NODE_ENV=local node -r dotenv/config ./samples/dbinit.js team",
-    "dbinit:dev:team": "cross-env NODE_ENV=development node -r dotenv/config ./samples/dbinit.js team",
-    "dbinit:prod:team": "cross-env NODE_ENV=production node -r dotenv/config ./samples/dbinit.js team"
+    "aws": "cross-env NODE_ENV=aws node -r dotenv/config ./bin/www-aws.js"
   },
   "dependencies": {
     "@lenne.tech/multer-gridfs-storage": "^5.0.6",
