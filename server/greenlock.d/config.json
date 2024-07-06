@@ -1,0 +1,32 @@
+{
+  "sites": [
+    {
+      "subject": "api.myparking.aws2.store",
+      "altnames": ["api.myparking.aws2.store"]
+    },
+    {
+      "subject": "api.modi.aws2.store",
+      "altnames": ["api.modi.aws2.store"]
+    },
+    {
+      "subject": "api.orummarket.aws2.store",
+      "altnames": ["api.orummarket.aws2.store"]
+    },
+    {
+      "subject": "api.essentia.aws2.store",
+      "altnames": ["api.essentia.aws2.store"]
+    },
+    {
+      "subject": "api.hanmogeum.aws2.store",
+      "altnames": ["api.hanmogeum.aws2.store"]
+    },
+    {
+      "subject": "api.edutube.aws2.store",
+      "altnames": ["api.edutube.aws2.store"]
+    },
+    {
+      "subject": "api.ssm.aws2.store",
+      "altnames": ["api.ssm.aws2.store"]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dbinit:sample": "node ./init.js sample 00-sample",
+    "dbinit:team": "node ./init.js team 01-board"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "monent": "^0.0.2-security",
+    "mongodb": "^6.5.0"
+  }
+}
