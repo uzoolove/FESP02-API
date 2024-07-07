@@ -244,7 +244,7 @@ router.patch('/:_id', jwtAuth.auth('user'), [
     const cart = await cartModel.findById(_id);
     if(req.user.type === 'admin' || cart?.user_id == req.user._id){
       const updated = await cartModel.update(_id, req.body.quantity);
-      res.json({ ok: 1, updated });
+      res.json({ ok: 1, item: updated });
     }else{
       next(); // 404
     }

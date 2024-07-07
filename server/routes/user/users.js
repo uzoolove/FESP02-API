@@ -643,7 +643,7 @@ router.patch('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
       }
       const updated = await userService.update(userModel, _id, req.body);
       if(updated){
-        res.json({ ok: 1, updated });
+        res.json({ ok: 1, item: updated });
       }else{
         next();
       }

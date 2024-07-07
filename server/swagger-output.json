@@ -5445,7 +5445,7 @@
             "type": "number",
             "example": 1
           },
-          "updated": {
+          "item": {
             "type": "object",
             "properties": {
               "price": {
@@ -6129,7 +6129,7 @@
             "type": "number",
             "example": 1
           },
-          "updated": {
+          "item": {
             "type": "object",
             "properties": {
               "_id": {
@@ -6172,7 +6172,7 @@
             "type": "number",
             "example": 1
           },
-          "updated": {
+          "item": {
             "type": "object",
             "properties": {
               "_id": {
@@ -6236,7 +6236,7 @@
             "type": "number",
             "example": 1
           },
-          "updated": {
+          "item": {
             "type": "object",
             "properties": {
               "_id": {
@@ -6317,7 +6317,7 @@
             "type": "number",
             "example": 1
           },
-          "updated": {
+          "item": {
             "type": "object",
             "properties": {
               "_id": {
@@ -7098,7 +7098,7 @@
             "type": "number",
             "example": 1
           },
-          "updated": {
+          "item": {
             "type": "object",
             "properties": {
               "_id": {
@@ -8631,7 +8631,8 @@
           "name": "GD",
           "phone": "01011112222",
           "address": "서울시 강남구 역삼동 123",
-          "type": "user"
+          "type": "user",
+          "profileImage": "/files/00-sample/profile.jpg"
         }
       },
       "createUserWithExtra": {
@@ -8642,6 +8643,11 @@
           "phone": "01011112222",
           "address": "서울시 강남구 역삼동 123",
           "type": "user",
+          "profileImage": {
+            "path ": "/files/00-sample/profile.jpg",
+            "name ": "profile.jpg",
+            "originalname": "사커게임.png"
+          },
           "extra": {
             "gender": "extra에는 프로젝트에서 필요한 아무 속성이나",
             "age": "넣으면 됩니다.",
@@ -8649,11 +8655,6 @@
               "배열도",
               "가능하고"
             ],
-            "profileImage": {
-              "path ": "/files/00-sample/profile.jpg",
-              "name ": "profile.jpg",
-              "originalname": "사커게임.png"
-            },
             "obj": {
               "hello": "객체로",
               "hi": "넣어도 됩니다."
@@ -8828,7 +8829,7 @@
       "updateUserResOneAttr": {
         "value": {
           "ok": 1,
-          "updated": {
+          "item": {
             "name": "길드래곤",
             "phone": "01099998888",
             "updatedAt": "2023.11.21 20:16:53"
@@ -8856,7 +8857,7 @@
       "updateUserResWithExtra": {
         "value": {
           "ok": 1,
-          "updated": {
+          "item": {
             "extra": {
               "address": [
                 {
@@ -9070,7 +9071,7 @@
       "updatePostRes": {
         "value": {
           "ok": 1,
-          "updated": {
+          "item": {
             "_id": 1,
             "title": "크기가 얼마나 큰가요?",
             "content": "6세 아이가 가지고 놀 수 있을 정도로 컸으면 좋겠네요.",

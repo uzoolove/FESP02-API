@@ -392,7 +392,7 @@ router.patch('/:_id', async function(req, res, next) {
         createdAt: moment().format('YYYY.MM.DD HH:mm:ss')
       };
       const result = await orderModel.updateState(_id, req.body, history);
-      res.json({ok: 1, updated: result});
+      res.json({ok: 1, item: result});
     }else{
       next();
     }
@@ -486,7 +486,7 @@ router.patch('/:_id/products/:product_id', async function(req, res, next) {
         createdAt: moment().format('YYYY.MM.DD HH:mm:ss')
       };
       const result = await orderModel.updateStateByProduct(_id, product_id, req.body, history);
-      res.json({ok: 1, updated: result});
+      res.json({ok: 1, item: result});
     }else{
       next();
     }

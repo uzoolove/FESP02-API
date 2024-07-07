@@ -16,7 +16,7 @@ export const db = {
   database: process.env.DB_DATABASE,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  clientIds: ['00-ins'],
+  clientIds: ['00-sample', '00-ins', 'board'],
   // clientIds: ['00-sample', '01-Trip-with-me', '02-Shimm', '03-OGC', '04-makeAcake', '05-cagong', '06-haemeogeo', '07-WeatherMate', '08-bbangradise', '09-chuno'],
 };
 
@@ -25,10 +25,11 @@ export const jwt = {
     secretKey: 'ShoppingAccessToken', // 암호키
     options: {
       algorithm: 'HS256', // 대칭키 방식
-      expiresIn: '2h',  // 2시간
+      expiresIn: '1d',  // 하루
+      // expiresIn: '2h',  // 2시간
       // expiresIn: '10m', // 10분
       // expiresIn: '10s',  // 10초
-      issuer: 'FESP01', // 발행자
+      issuer: 'FESP', // 발행자
     },
   },
   refresh: {
@@ -37,7 +38,7 @@ export const jwt = {
       algorithm: 'HS256',
       expiresIn: '30d',
       // expiresIn: '30s',
-      issuer: 'FESP01', 
+      issuer: 'FESP', 
     },
   }
 };

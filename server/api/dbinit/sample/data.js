@@ -982,7 +982,7 @@ export const initData = async (nextSeq) => {
         createdAt: getTime(-1, -60 * 60 * 12),
       },
     ],
-    // QnA, 공지사항, 게시판
+    // QnA, 공지사항 등의 게시판
     post: [
       {
         _id: await nextSeq('post'),

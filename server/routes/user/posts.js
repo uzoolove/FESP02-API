@@ -543,7 +543,7 @@ router.patch('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
     const post = await postModel.findById(_id);
     if(post && (req.user.type === 'admin' || post.user._id == req.user._id)){
       const updated = await postModel.update(_id, req.body);
-      res.json({ ok: 1, updated });
+      res.json({ ok: 1, item: updated });
     }else{
       next();
     }

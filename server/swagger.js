@@ -471,7 +471,7 @@ const doc = {
 
       productUpdateRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "price": 22000,
           "shippingFees": 3000,
           "show": true,
@@ -696,7 +696,7 @@ const doc = {
 
       updateOrderRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "_id": 2,
           "state": "OS110",
           "memo": "2개 상품 모두 동작하지 않습니다. 반품 요청합니다.",
@@ -711,7 +711,7 @@ const doc = {
 
       updateOrderProductRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "_id": 2,
           "product_id": 3,
           "state": "OS110",
@@ -732,7 +732,7 @@ const doc = {
 
       updateOrderProductSellerRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "_id": 2,
           "product_id": 3,
           "state": "OS035",
@@ -758,7 +758,7 @@ const doc = {
 
       updateOrderSellerRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "_id": 2,
           "state": "OS035",
           "memo": "2건 이상 구매한 고객님에 대해 서비스로 물총을 드립니다.",
@@ -1024,7 +1024,7 @@ const doc = {
 
       cartUpdateRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "_id": 2,
           "quantity": 2,
           "updatedAt": "2024.04.08 10:10:41"
@@ -1700,6 +1700,7 @@ const doc = {
         phone: '01011112222',
         address: '서울시 강남구 역삼동 123',
         type: 'user',
+        profileImage: "/files/00-sample/profile.jpg",
       },
 
       createUserWithExtra: {
@@ -1709,15 +1710,15 @@ const doc = {
         phone: '01011112222',
         address: '서울시 강남구 역삼동 123',
         type: 'user',
+        profileImage: {
+          "path ": "/files/00-sample/profile.jpg",
+          "name ": "profile.jpg",
+          "originalname": "사커게임.png"
+        },
         extra: {
           gender: 'extra에는 프로젝트에서 필요한 아무 속성이나',
           age: '넣으면 됩니다.',
           address: ['배열도', '가능하고'],
-          profileImage: {
-            "path ": "/files/00-sample/profile.jpg",
-            "name ": "profile.jpg",
-            "originalname": "사커게임.png"
-          },
           obj: {
             hello: '객체로',
             hi: '넣어도 됩니다.'
@@ -1875,7 +1876,7 @@ const doc = {
 
       updateUserResOneAttr: {
         "ok": 1,
-        "updated": {
+        "item": {
           "name": "길드래곤",
           "phone": "01099998888",
           "updatedAt": "2023.11.21 20:16:53"
@@ -1901,7 +1902,7 @@ const doc = {
 
       updateUserResWithExtra: {
         "ok": 1,
-        "updated": {
+        "item": {
           "extra": {
             "address": [
               {
@@ -2107,7 +2108,7 @@ const doc = {
 
       updatePostRes: {
         "ok": 1,
-        "updated": {
+        "item": {
           "_id": 1,
           "title": "크기가 얼마나 큰가요?",
           "content": "6세 아이가 가지고 놀 수 있을 정도로 컸으면 좋겠네요.",

@@ -414,7 +414,7 @@ router.patch('/:_id', [
     const product = await sellerProductModel.findAttrById({ _id, attr: 'seller_id', seller_id: req.user._id });
     if(req.user.type === 'admin' || product?.seller_id == req.user._id){
       const result = await sellerProductModel.update(_id, req.body);
-      res.json({ok: 1, updated: result});
+      res.json({ok: 1, item: result});
     }else{
       next(); // 404
     }
