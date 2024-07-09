@@ -7,7 +7,7 @@ function getTime(day = 0, second = 0) {
   return moment().add(day, 'days').add(second, 'seconds').format('YYYY.MM.DD HH:mm:ss');
 }
 
-export const initData = async (nextSeq) => {
+export const initData = async (clientId, nextSeq) => {
   return {
     // 회원
     user: [

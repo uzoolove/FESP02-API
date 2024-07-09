@@ -57,7 +57,7 @@ await db.dropDatabase();
 console.info('DB 삭제.');
 
 import(`./${targetFolder}/data.js`).then(async ({ initData }) => {
-  await initDB(await initData(nextSeq));
+  await initDB(await initData(clientId, nextSeq));
   client.close();
   console.info('DB 초기화 완료.');
 });
