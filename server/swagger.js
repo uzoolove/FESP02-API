@@ -370,7 +370,7 @@ const doc = {
               "name": "어피치",
               "phone": "01033334444",
               "address": "서울시 강남구 도곡동 789",
-              "profileImage": "user-apeach.webp",
+              "image": "user-apeach.webp",
               "extra": {
                 "confirm": false,
                 "birthday": "11-24",
@@ -804,7 +804,7 @@ const doc = {
             "_id": 1,
             "user": {
               "_id": 4,
-              "profileImage": "user-jayg.webp",
+              "image": "user-jayg.webp",
               "name": "제**"
             },
             "rating": 5,
@@ -1462,7 +1462,7 @@ const doc = {
           "_id": 5,
           "name": "GD",
           "type": "user",
-          "profileImage": "http://k.kakaocdn.net/dn/p4NUj/btsFiuTSVb6/Q4YkWkx4t1AFkFA3rtq6ZK/img_110x110.jpg",
+          "image": "http://k.kakaocdn.net/dn/p4NUj/btsFiuTSVb6/Q4YkWkx4t1AFkFA3rtq6ZK/img_110x110.jpg",
           "kakao": {
               "id": 1234567890,
               "connected_at": "2024-04-13T15:52:13Z",
@@ -1700,7 +1700,7 @@ const doc = {
         phone: '01011112222',
         address: '서울시 강남구 역삼동 123',
         type: 'user',
-        profileImage: "/files/00-sample/profile.jpg",
+        image: "/files/00-sample/profile.jpg",
       },
 
       createUserWithExtra: {
@@ -1710,7 +1710,7 @@ const doc = {
         phone: '01011112222',
         address: '서울시 강남구 역삼동 123',
         type: 'user',
-        profileImage: {
+        image: {
           "path ": "/files/00-sample/profile.jpg",
           "name ": "profile.jpg",
           "originalname": "사커게임.png"
@@ -1759,7 +1759,7 @@ const doc = {
             "gender": 'extra에는 프로젝트에서 필요한 아무 속성이나',
             "age": '넣으면 됩니다.',
             "address": ['배열도', '가능하고'],
-            "profileImage": {
+            "image": {
               "path ": "/files/00-sample/profile.jpg",
               "name ": "profile.jpg",
               "originalname": "사커게임.png"
@@ -1792,7 +1792,7 @@ const doc = {
           "address": "서울시 강남구 논현동 222",
           "type": "user",
           "loginType": "email",
-          "profileImage": "user-jayg.webp",
+          "image": "user-jayg.webp",
           "createdAt": "2024.03.31 20:29:44",
           "updatedAt": "2024.04.10 08:59:44",
           "posts": 2,
@@ -1815,7 +1815,7 @@ const doc = {
           "address": "서울시 강남구 논현동 222",
           "type": "user",
           "loginType": "email",
-          "profileImage": "user-jayg.webp",
+          "image": "user-jayg.webp",
           "createdAt": "2024.03.31 20:29:44",
           "updatedAt": "2024.04.10 08:59:44",
           "extra": {

@@ -311,7 +311,7 @@ router.post('/login/kakao', async function(req, res, next) {
       // 가입되지 않은 회원일 경우 자동으로 회원 가입
       const userInfo = {
         name: kakaoUserInfo.kakao_account.profile.nickname,
-        profileImage: kakaoUserInfo.kakao_account.profile.thumbnail_image_url,
+        image: kakaoUserInfo.kakao_account.profile.thumbnail_image_url,
         type: 'user',
         kakao: kakaoUserInfo,
         ...userData

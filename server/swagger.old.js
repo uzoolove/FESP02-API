@@ -719,7 +719,7 @@ const doc = {
           gender: 'extra에는 프로젝트에서 필요한 아무 속성이나',
           age: '필요한 값을',
           address: ['넣으면', '됩니다.'],
-          profileImage: '/uploads/swagger.jpg',
+          image: '/uploads/swagger.jpg',
           obj: {
             hello: '객체로',
             hi: '넣어도 됩니다.'
@@ -763,7 +763,7 @@ const doc = {
               "넣으면",
               "됩니다."
             ],
-            "profileImage": "/uploads/swagger.jpg",
+            "image": "/uploads/swagger.jpg",
             "obj": {
               "hello": "객체로",
               "hi": "넣어도 됩니다."
