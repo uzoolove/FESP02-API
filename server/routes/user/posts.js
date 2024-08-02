@@ -82,7 +82,7 @@ router.post('/', jwtAuth.auth('user'), [
 
   try{
     const postModel = req.model.post;
-    const item = await postModel.create({ ...req.body, views: 0, user: { _id: req.user._id, name: req.user.name, profile: req.user.profile } });
+    const item = await postModel.create({ ...req.body, views: 0, user: { _id: req.user._id, name: req.user.name, image: req.user.image } });
     res.json( {ok: 1, item} );
   }catch(err){
     next(err);
@@ -728,7 +728,7 @@ router.post('/:_id/replies', jwtAuth.auth('user'), async function(req, res, next
       reply.user = {
         _id: req.user._id,
         name: req.user.name,
-        profile: req.user.profile
+        image: req.user.image
       };
       // reply.user_id = req.user._id;
       const item = await postModel.createReply(_id, reply);

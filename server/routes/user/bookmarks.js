@@ -103,7 +103,7 @@ router.post('/:type/:target_id', [
       bookmarkInfo.user = {
         _id: req.user._id,
         name: req.user.name,
-        profile: req.user.profile
+        image: req.user.image
       }
       Object.assign(bookmarkInfo, req.body);
       const item = await bookmarkModel.create(bookmarkInfo);

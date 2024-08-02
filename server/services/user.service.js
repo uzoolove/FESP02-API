@@ -58,7 +58,7 @@ const userService = {
 
   // 로그인 성공한 회원 정보에 토큰 부여
   async setToken(userModel, user){
-    const token = await authService.sign({ _id: user._id, type: user.type, name: user.name, profile: user.image, loginType: user.loginType });
+    const token = await authService.sign({ _id: user._id, type: user.type, name: user.name, image: user.image, loginType: user.loginType });
     logger.log('token', token);
     await userModel.updateRefreshToken(user._id, token.refreshToken);
     user.token = token;

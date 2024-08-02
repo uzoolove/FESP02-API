@@ -77,7 +77,7 @@ router.post('/', jwtAuth.auth('user'), [
     reply.user = {
       _id: req.user._id,
       name: req.user.name,
-      profile: req.user.profile
+      image: req.user.image
     };
     const item = await replyModel.create(reply);
     res.status(201).json({ok: 1, item});
