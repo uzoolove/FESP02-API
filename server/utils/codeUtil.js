@@ -3,6 +3,8 @@ import logger from '#utils/logger.js';
 
 const codeUtil = {
   async initCode(clientId, db){
+    console.log('db 접속 후 코드 조회');
+    console.log(clientId, db);
     global[clientId] = {};
     global[clientId].codeList = await db.code.find().toArray();
     global[clientId].codeList.forEach(code => _.sortBy(code.codes, 'sort'));
