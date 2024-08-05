@@ -37,7 +37,7 @@ for(const clientId of DBConfig.clientIds){
         result = { _id, no: 1 };
         await db.seq.insertOne({ _id, no: 2});
       }
-      console.log('nextsqt', result.no)
+      console.log('nextseq', result.no)
       return result.no;
     }
 
