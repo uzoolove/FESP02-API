@@ -4,8 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dbinit:sample:prod": "cross-env NODE_ENV=production node ./init.js sample 00-sample",
-    "dbinit:sample": "cross-env NODE_ENV=local node ./init.js sample 00-sample",
+    "dbinit:toyzrus:prod": "cross-env NODE_ENV=production node ./init.js toyzrus 00-sample",
+    "dbinit:toyzrus": "cross-env NODE_ENV=local node ./init.js toyzrus 00-sample",
     "dbinit:team:prod": "cross-env NODE_ENV=production node ./init.js next-level 00-next-level",
     "dbinit:team": "cross-env NODE_ENV=local node ./init.js next-level 00-next-level"
   },
