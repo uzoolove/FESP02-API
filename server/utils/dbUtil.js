@@ -3,20 +3,10 @@ import { db as DBConfig } from '#config/index.js';
 import { MongoClient } from 'mongodb';
 import codeUtil from '#utils/codeUtil.js';
 
-let connections = {};
+const connections = {};
 
 // Connection URL
-let url;
-
-if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development' || process.env.DB_HOST.endsWith('.fesp.shop')){
-  if(DBConfig.protocol === 'mongodb+srv'){  // mongodb atlas
-    url = `${DBConfig.protocol}://${DBConfig.user}:${DBConfig.password}@${DBConfig.host}`;
-  }else{
-    url = `${DBConfig.protocol}://${DBConfig.user}:${DBConfig.password}@${DBConfig.host}:${DBConfig.port}/${DBConfig.database}`;
-  }
-}else{
-  url = `${DBConfig.protocol}://${DBConfig.host}:${DBConfig.port}`;
-}
+const url = DBConfig.url;
 
 export const getDB = (clientId) => connections[clientId].db;
 export const getClient = (clientId) => connections[clientId].client;

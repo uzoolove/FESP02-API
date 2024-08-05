@@ -10,13 +10,7 @@ if (process.env.NODE_ENV) {
 }
 
 export const db = {
-  protocol: process.env.DB_PROTOCOL,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_DATABASE,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  // clientIds: ['00-sample'],
+  url: process.env.DB_URL,
   clientIds: ['00-sample', '00-next-level'],
 };
 

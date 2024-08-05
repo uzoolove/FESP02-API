@@ -1,6 +1,6 @@
 {
   "name": "openmarket-api",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "imports": {
@@ -15,9 +15,8 @@
   "scripts": {
     "prestart": "node ./swagger.js",
     "start": "cross-env NODE_ENV=production node -r dotenv/config ./bin/www-prod.js",
-    "dev": "cross-env NODE_ENV=development node -r dotenv/config ./bin/www-https.js",
     "local": "cross-env NODE_ENV=local nodemon -r dotenv/config ./bin/www.js",
-    "aws": "cross-env NODE_ENV=aws node -r dotenv/config ./bin/www-aws.js"
+    "local:https": "cross-env NODE_ENV=local nodemon -r dotenv/config ./bin/www-https.js"
   },
   "dependencies": {
     "@lenne.tech/multer-gridfs-storage": "^5.0.6",
