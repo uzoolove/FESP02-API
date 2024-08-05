@@ -2,8 +2,7 @@
 /ins/
 .history
 docs
-
-/server/api/dbinit/team
+/server/api/dbinit/team/
 
 # vscode settings
 .vscode
