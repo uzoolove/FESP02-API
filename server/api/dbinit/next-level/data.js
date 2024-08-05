@@ -105,6 +105,57 @@ export const initData = async (clientId, nextSeq) => {
         ],
         createdAt: getTime(-3, -60 * 60 * 2),
         updatedAt: getTime(-3, -60 * 60 * 2),
+      },
+      {
+        _id: await nextSeq('post'),
+        type: 'music',
+        title: '일일 DJ, GD 입니다',
+        views: 5,
+        user: {
+          _id: 2,
+          name: '네오',
+          image: `/files/${clientId}/user-neo.webp`
+        },
+        content: '좋은 노래 많이 신청해 주세요.',
+        replies: [
+          {
+            _id: 1,
+            user_id: 2,
+            user: {
+              _id: 2,
+              name: '네오',
+              image: `/files/${clientId}/user-neo.webp`
+            },
+            like: 5,
+            content: '삐딱하게 틀어주세요',
+            videoId: 'RKhsHGfrFmY',
+            extra: {
+              artist: 'GD',
+              title: 'G-DRAGON - 삐딱하게(CROOKED) M/V',
+            },            
+            createdAt: getTime(-2, -60 * 60 * 20),
+            updatedAt: getTime(-2, -60 * 60 * 2),
+          },
+          {
+            _id: 2,
+            user_id: 3,
+            user: {
+              _id: 3,
+              name: '어피치'
+            },
+            content: '비가오니까 에픽하이의 우산이 듣고 싶어요.',
+            like: 13,
+            videoId: 'NIPtyAKxlRs',
+            extra: {
+              artist: '에픽하이',
+              title: '에픽하이(Epik high) - 우산 (Feat. 윤하)',
+            },
+            createdAt: getTime(-2, -60 * 60 * 10),
+            updatedAt: getTime(-2, -60 * 60 * 1),
+          }
+        ],
+        createdAt: getTime(-3, -60 * 60 * 2),
+        updatedAt: getTime(-3, -60 * 60 * 2),
       }
     ],
     // 코드
