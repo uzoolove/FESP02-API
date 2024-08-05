@@ -3,11 +3,7 @@
 .history
 docs
 
-# docs
-docs
-
-# sample
-api/samples/dbinit_*
+/server/api/dbinit/team
 
 # vscode settings
 .vscode
