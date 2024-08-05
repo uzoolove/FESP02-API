@@ -3,6 +3,7 @@
 .history
 docs
 /server/api/dbinit/team/
+todo.md
 
 # vscode settings
 .vscode
