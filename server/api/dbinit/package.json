@@ -6,14 +6,19 @@
   "scripts": {
     "dbinit:toyzrus:prod": "cross-env NODE_ENV=production node ./init.js toyzrus 00-sample",
     "dbinit:toyzrus": "cross-env NODE_ENV=local node ./init.js toyzrus 00-sample",
-    "dbinit:team:prod": "cross-env NODE_ENV=production node ./init.js next-level 00-next-level",
-    "dbinit:team": "cross-env NODE_ENV=local node ./init.js next-level 00-next-level"
+    "dbinit:team:prod": "cross-env NODE_ENV=production node ./init.js team 00-next-level",
+    "dbinit:team": "cross-env NODE_ENV=local node ./init.js team 00-next-level"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "moment": "^2.30.1",
     "monent": "^0.0.2-security",
     "mongodb": "^6.5.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
