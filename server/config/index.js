@@ -11,7 +11,7 @@ if (process.env.NODE_ENV) {
 
 export const db = {
   url: process.env.DB_URL,
-  clientIds: ['00-sample', '00-next-level'],
+  clientIds: ['00-sample', '00-next-level', '07-myeonhakso'],
 };
 
 export const jwt = {
