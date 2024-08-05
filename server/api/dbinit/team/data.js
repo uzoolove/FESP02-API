@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import moment from 'moment';
 
 function getDay(day = 0) {

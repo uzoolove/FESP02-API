@@ -1,8 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 async function getDB(clientId){
-  const url = `mongodb://localhost`;
-  // const url = `mongodb://sample:sample11%21%21@db.fesp.shop/${clientId}`;
+  const url = process.env.DB_URL;
 
   console.log(`DB 접속 시도: ${url}`, clientId);
   
@@ -10,7 +9,7 @@ async function getDB(clientId){
     const client = new MongoClient(url);
   
     await client.connect();
-    console.info(`DB 접속 성공: ${url}`, clientId);
+    console.info(`DB 접속 성공: ${url}/${clientId}`);
     const db = client.db(clientId);
     db.user = db.collection('user');
     db.product = db.collection('product');

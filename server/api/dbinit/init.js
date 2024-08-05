@@ -2,6 +2,15 @@ import fs from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { GridFSBucket } from 'mongodb';
 import getDB from './getDB.js';
+import dotenv from 'dotenv';
+
+// 기본 .env 파일 로딩(package.json에서 로딩함)
+dotenv.config({ path: '.env' });
+// 환경별 .env 파일 로딩
+console.log('NODE_ENV', process.env.NODE_ENV);
+if (process.env.NODE_ENV) {
+  dotenv.config({ override: true, path: `.env.${process.env.NODE_ENV}` });
+}
 
 const [,,targetFolder, clientId] = process.argv;
 const { db, client, nextSeq } = await getDB(clientId);
