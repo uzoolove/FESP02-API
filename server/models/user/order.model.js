@@ -33,7 +33,7 @@ class OrderModel {
             quantity,
             seller_id: product.seller_id,
             name: product.name,
-            image: product.mainImages[0],
+            image: product.mainImages?.length && product.mainImages[0],
             price: product.price * quantity,
             extra: product.extra
           });
