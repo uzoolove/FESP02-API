@@ -39,6 +39,7 @@ router.get('/', async function(req, res, next) {
       nested: codeUtil.getCodeObj(clientId),
       flatten: codeUtil.getCodeFlatten(clientId)
     };
+    console.log(req.clientId, item)
     res.json({ ok: 1, item });
   }catch(err){
     next(err);
