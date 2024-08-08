@@ -22,7 +22,7 @@ const doc = {
   servers: [
     {
       url: 'https://api.fesp.shop',
-      description: ''
+      description: 'production 테스트'
     },
     {
       url: 'http://localhost',
@@ -2152,7 +2152,7 @@ const routes = ['./routes/user/index.js', './routes/seller/index.js', './routes/
 
 const options = {
   openapi: '3.0.0',
-  language: 'ko-KR',
+  language: 'ko',
 };
 
 swaggerAutogen(options)(outputFile, routes, doc);
