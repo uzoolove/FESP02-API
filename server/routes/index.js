@@ -7,8 +7,8 @@ import setModel from '#middlewares/setModel.js';
 import express from 'express';
 const router = express.Router({mergeParams: true});
 
-// router.use(/^(?!\/files\/).*$/, setModel);
-router.use('/', setModel);
+router.use(/^(?!\/files\/).*$/, setModel);
+// router.use('/', setModel);
 router.use('/', adminRouter);
 router.use('/', userRouter);
 router.use('/', sellerRouter);

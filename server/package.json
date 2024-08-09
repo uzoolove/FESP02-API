@@ -16,7 +16,9 @@
     "prestart": "node ./swagger.js",
     "start": "cross-env NODE_ENV=production node -r dotenv/config ./bin/www-prod.js",
     "local": "cross-env NODE_ENV=local nodemon -r dotenv/config ./bin/www.js",
-    "local:https": "cross-env NODE_ENV=local nodemon -r dotenv/config ./bin/www-https.js"
+    "local:https": "cross-env NODE_ENV=local nodemon -r dotenv/config ./bin/www-https.js",
+
+    "team": "cross-env NODE_ENV=development nodemon -r dotenv/config ./bin/www.js"
   },
   "dependencies": {
     "@lenne.tech/multer-gridfs-storage": "^5.0.6",

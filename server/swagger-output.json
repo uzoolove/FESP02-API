@@ -8,7 +8,7 @@
   "servers": [
     {
       "url": "https://api.fesp.shop",
-      "description": ""
+      "description": "production 테스트"
     },
     {
       "url": "http://localhost",
@@ -1755,7 +1755,7 @@
         "description": "지정한 상품 목록을 장바구니에 합칩니다.<br>이미 장바구니에 추가된 상품일 경우 수량이 증가하고 새로운 상품이 추가될 경우 목록에 추가됩니다.<br>로그인 하지 않은 상태에서 장바구니에 상품을 담으면 localStorage에 저장해 두고 결제시 로그인을 하게되면 이 API를 호출해서 서버에 저장된 장바구니 상품과 localStorage에 저장된 장바구니 상품을 합칠때 사용합니다.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "성공"
           },
           "201": {
             "description": "성공<br>합친 상품을 포함한 장바구니 목록이 반환됩니다.",
@@ -2384,7 +2384,7 @@
         "description": "게시글을 등록합니다.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "성공"
           },
           "201": {
             "description": "성공",
@@ -3042,7 +3042,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "작성됨"
           }
         },
         "security": [
@@ -3093,7 +3093,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "성공"
           }
         },
         "security": [
@@ -3128,7 +3128,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "성공"
           }
         },
         "security": [
