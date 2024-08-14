@@ -25,7 +25,7 @@ router.post('/', jwtAuth.auth('user'), [
     }]
 
     #swagger.requestBody = {
-      description: "구매 후기가 저장된 객체입니다.<br>order_id: 후기 id(필수, 정수)<br>product_id: 상품 id(필수, 정수)<br>rating: 점수(선택, 정수)<br>content: 내용(필수)<br>extra: 추가 정보(선택, 객체로 자유롭게 지정)",
+      description: "구매 후기가 저장된 객체입니다.<br>order_id: 구매 id(필수, 정수)<br>product_id: 상품 id(필수, 정수)<br>rating: 점수(선택, 정수)<br>content: 내용(필수)<br>extra: 추가 정보(선택, 객체로 자유롭게 지정)",
       required: true,
       content: {
         "application/json": {
