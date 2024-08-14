@@ -30,6 +30,22 @@ const userService = {
     return newUser;
   },
 
+  // OAuth 회원 가입
+  async signupOAuth(userModel, userInfo){
+    logger.trace(userInfo);
+
+    let user = await userModel.findBy({ 'extra.providerAccountId': userInfo.extra.providerAccountId });
+    if(user){
+      throw createError(409, `이미 가입된 회원입니다.(${userInfo.loginType})`);
+    }else{
+      const user = await userModel.create(userInfo);
+      return user;
+      // 자동으로 로그인 처리
+      // const loginUser = await this.loginOAuth(userModel, userInfo.extra.providerAccountId);
+      // return loginUser;
+    }
+  },
+
   // 로그인
   async login(userModel, { email, password }){
     const user = await userModel.findBy({ email });
@@ -48,6 +64,17 @@ const userService = {
   // 카카오 로그인
   async loginKakao(userModel, kakaoId){
     const user = await userModel.findBy({ 'kakao.id': kakaoId});
+    logger.log(user);
+    if(user){
+      return await this.setToken(userModel, user);
+    }else{
+      return false;
+    }
+  },
+
+  // OAuth 로그인
+  async loginOAuth(userModel, providerAccountId){
+    const user = await userModel.findBy({ 'extra.providerAccountId': providerAccountId});
     logger.log(user);
     if(user){
       return await this.setToken(userModel, user);

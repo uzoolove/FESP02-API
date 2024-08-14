@@ -19,11 +19,31 @@
   <h1>FrontEnd School Plus 2기 API Server</h1>
   <p>API 문서: <a id="apilink"></a></p>
   <div>
-    <h2>최신 버전: <span>v0.1.0</span></h2>
+    <h2>최신 버전: <span>v0.2.0</span></h2>
   </div>
   
   <div>
     <h2>변경 사항</h2>
+    <h3>v0.2.0 2024.08.14</h3>
+    <ul>
+      <li>[회원] 인증 공급자를 통해 로그인 한 후 사용할 회원가입 API 추가<br>
+        * google, github 등의 인증 공급자를 통해 로그인 한 사용자는 최초에 한번 회원가입 API를 통해서 회원가입 요청을 해야 합니다.<br>
+        * 이때는 password가 따로 없기 때문에 기존의 회원가입 API 대신 다음 API를 사용해서 회원 가입 처리를 해주세요.<br>
+        <ul>
+          <li>API 참고: <a href="http://localhost/apidocs/#/회원/post_users_signup_oauth">http://localhost/apidocs/#/회원/post_users_signup_oauth</a></li>
+        </ul>
+        * 인증 공급자에게 전달받은 사용자 정보 이외에 추가적인 정보가 필요하다면 다음의 절차대로 진행하세요.<br>
+        <ul>
+          <li>소셜 로그인이 완료되면 추가 정보를 입력 받는 화면으로 이동한 후 추가 정보를 포함해서 회원가입 요청</li>
+          <li>소셜 로그인이 완료되면 자동으로 회원 가입 시킨 후 추가 정보를 입력 받는 화면으로 이동한 후 추가 정보를 이용해서 회원 정보 수정</li>
+        </ul>
+      </li>
+      <li>[회원] 인증 공급자를 통해 로그인 한 후 사용할 로그인 API 추가
+        <ul>
+          <li>API 참고: <a href="http://localhost/apidocs/#/회원/post_users_login_with">http://localhost/apidocs/#/회원/post_users_login_with</a></li>
+        </ul>
+      </li>
+    </ul>
 
     <h3>v0.1.0 2024.07.06</h3>
     <ul>

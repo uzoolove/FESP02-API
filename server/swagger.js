@@ -181,6 +181,45 @@ const doc = {
         },
         required: ['email', 'password', 'name', 'type']
       },
+      createUserWithOAuth: {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+            enum: ['user', 'seller'],
+            description: '회원 구분(user: 일반 회원, seller: 판매 회원)'
+          },
+          loginType: {
+            type: 'string',
+            enum: ['email', 'google', 'github'],
+            description: 'Auth Provider'
+          },
+          name: {
+            type: 'string',
+            description: '이름'
+          },
+          email: {
+            type: 'string',
+            description: '이메일'
+          },
+          image: {
+            type: 'string',
+            description: '프로필 이미지 링크'
+          },
+          extra: {
+            type: 'object',
+            description: '추가 속성들 정의',
+            properties: {
+              providerAccountId: {
+                type: 'string',
+                description: 'Auth Provider가 제공한 사용자 ID'
+              }
+            },
+            required: ['providerAccountId']
+          },
+        },
+        required: ['type', 'loginType']
+      },
       createCode: {
         type: 'object',
         properties: {
@@ -229,6 +268,10 @@ const doc = {
       error404: {
         "ok": 0,
         "message": "/api/xxx 리소스를 찾을 수 없습니다."
+      },
+      errorUser404: {
+        "ok": 0,
+        "message": "지정한 회원을 찾을 수 없습니다."
       },
       error409: {
         "ok": 0,
@@ -1492,6 +1535,97 @@ const doc = {
           }
         }
       },
+      loginGoogleRes: {
+        _id: 5,
+        type: 'user',
+        loginType: 'google',
+        name: '데이나',
+        email: 'dana@market.com',
+        image: 'https://lh3.googleusercontent.com/a/ACg8ocKqRBGG4QfyzlASvT7kARFlFHW7s8tQ6XQ-3fDQD6U7lLsqHQ=s96-c',
+        extra: {
+          iss: 'https://accounts.google.com',
+          azp: '589155556571-ffe6qle459tj9q2iu3o497flqr0lkh4s.apps.googleusercontent.com',
+          aud: '589155556571-ffe6qle459tj9q2iu3o497flqr0lkh4s.apps.googleusercontent.com',
+          sub: '117745819340134301470',
+          email: 'dana@market.com',
+          email_verified: true,
+          at_hash: 'ZpVapPfpG2XHUdZGUWMG18w',
+          name: '데이나',
+          picture: 'https://lh3.googleusercontent.com/a/ACg8ocKqRBGG4QfyzlASvT7kARFlFHW7s8tQ6XQ-3fDQD6U7lLsqHQ=s96-c',
+          given_name: '데이나',
+          iat: 1723535998,
+          exp: 1723539598,
+          providerAccountId: '117745819340134301470'
+        },
+        createdAt: '2024.08.13 14:48:17',
+        updatedAt: '2024.08.13 14:48:17',
+        token: {
+          accessToken: 'eyJhbGciOiJIUzI1NaIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsInR5cGUiOiJ1c2VyIiwibmFtZSI6Iuygleq4uOyaqSIsImltYWdlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmZQOVpaU1FvVWs3TXRuc2pfU3hnRU1yMHkyZHJ5WUpWbXJ5YTBFci1kZE5TeDBRPXM5Ni1jIiwibG9naW5UeXBlIjoiZ29vZ2xlIiwiaWF0IjoxNzIzNTg1NTQ4LCJleHAiOjE3MjM2NzE5NDgsImlzcyI6IkZFU1AifQ.gBHQ0fnrVASir5wtBvHH92LVCn097QHwUDhphFEb6Zw',
+          refreshToken: 'eyJhbGciOiJIUzI1NaIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjM1ODU1NDgsImV4cCI6MTcyNjE3NzU0OCwiaXNzIjoiRkVTUCJ9.DkkHXNjL__wU6Og7mAMuLh86Nio_uBNsS4b9QieNLGU'
+        }
+      },
+      loginGithubRes: {
+        _id: 6,
+        type: 'user',
+        loginType: 'github',
+        name: 'Kilyong Jeong',
+        email: 'uzoolove@gmail.com',
+        image: 'https://avatars.githubusercontent.com/u/7599569?v=4',
+        extra: {
+          login: 'dana',
+          id: 7599169,
+          node_id: 'MDQ6VXNlcjc1OTk1Njk=',
+          avatar_url: 'https://avatars.githubusercontent.com/u/7599169?v=4',
+          gravatar_id: '',
+          url: 'https://api.github.com/users/dana',
+          html_url: 'https://github.com/dana',
+          followers_url: 'https://api.github.com/users/dana/followers',
+          following_url: 'https://api.github.com/users/dana/following{/other_user}',
+          gists_url: 'https://api.github.com/users/dana/gists{/gist_id}',
+          starred_url: 'https://api.github.com/users/dana/starred{/owner}{/repo}',
+          subscriptions_url: 'https://api.github.com/users/dana/subscriptions',
+          organizations_url: 'https://api.github.com/users/dana/orgs',
+          repos_url: 'https://api.github.com/users/dana/repos',
+          events_url: 'https://api.github.com/users/dana/events{/privacy}',
+          received_events_url: 'https://api.github.com/users/dana/received_events',
+          type: 'User',
+          site_admin: false,
+          name: 'Dana',
+          company: null,
+          blog: '',
+          location: ' Seoul, Republic of Korea',
+          email: 'dana@market.com',
+          hireable: null,
+          bio: null,
+          twitter_username: null,
+          notification_email: 'dana@market.com',
+          public_repos: 17,
+          public_gists: 0,
+          followers: 37,
+          following: 0,
+          created_at: '2014-05-16T05:37:01Z',
+          updated_at: '2024-07-11T04:24:23Z',
+          private_gists: 1,
+          total_private_repos: 29,
+          owned_private_repos: 29,
+          disk_usage: 2145679,
+          collaborators: 4,
+          two_factor_authentication: true,
+          plan: {
+            name: 'free',
+            space: 976562469,
+            collaborators: 0,
+            private_repos: 10000
+          },
+          providerAccountId: '7599169'
+        },
+        createdAt: '2024.08.13 15:33:54',
+        updatedAt: '2024.08.13 15:33:54',
+        token: {
+          accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjcsInR5cGUiOiJ1c2VyIiwibmFtZSI6IktpbHlvbmcgSmVvbmciLCJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83NTk5NTY5P3Y9NCIsImxvZ2luVHlwZSI6ImdpdGh1YiIsImlhdCI6MTcyMzU4NTc2NywiZXhwIjoxNzIzNjcyMTY3LCJpc3MiOiJGRVNQIn0.S_Mag8MO7pgO0W7O0y9tbu96JEHY2krBNTFqhyzCyAs',
+          refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjM1ODU3NjcsImV4cCI6MTcyNjE3Nzc2NywiaXNzIjoiRkVTUCJ9.XdqGl88qV5-GZsn_kXJXdbO6HYZ5CLB3bNq7uqNLdB0'
+        }
+      },
       fileUploadFieldError: {
         "ok": 0,
         "message": "첨부 파일 필드명은 attach로 지정해야 합니다."
@@ -1733,6 +1867,85 @@ const doc = {
         }
       },
 
+      createUserWithGoogle: {
+        type: 'user',
+        loginType: 'google',
+        name: '데이나',
+        email: 'dana@market.com',
+        image: "https://lh3.googleusercontent.com/a/ACg8ocKqRBGG4QfyzlASvT7kARFlFHW7s8tQ6XQ-3fDQD6U7lLsqHQ=s96-c",
+        extra: {
+          iss: 'https://accounts.google.com',
+          azp: '589155556571-ffe6qle459tj9q2iu3o497flqr0lkh4s.apps.googleusercontent.com',
+          aud: '589155556571-ffe6qle459tj9q2iu3o497flqr0lkh4s.apps.googleusercontent.com',
+          sub: '117745819340134301470',
+          email: 'dana@market.com',
+          email_verified: true,
+          at_hash: 'ZpVapPfpG2XHUdZGUWMG18w',
+          name: '데이나',
+          picture: 'https://lh3.googleusercontent.com/a/ACg8ocKqRBGG4QfyzlASvT7kARFlFHW7s8tQ6XQ-3fDQD6U7lLsqHQ=s96-c',
+          given_name: '데이나',
+          iat: 1723535998,
+          exp: 1723539598,
+          providerAccountId: '117745819340134301470'
+        }
+      },
+
+      createUserWithGithub: {
+        type: 'user',
+        loginType: 'github',
+        name: '데이나',
+        email: 'dana@market.com',
+        image: "https://avatars.githubusercontent.com/u/7599169?v=4",
+        extra: {
+          login: 'dana',
+          id: 7599169,
+          node_id: 'MDQ6VXNlcjc1OTk1Njk=',
+          avatar_url: 'https://avatars.githubusercontent.com/u/7599169?v=4',
+          gravatar_id: '',
+          url: 'https://api.github.com/users/dana',
+          html_url: 'https://github.com/dana',
+          followers_url: 'https://api.github.com/users/dana/followers',
+          following_url: 'https://api.github.com/users/dana/following{/other_user}',
+          gists_url: 'https://api.github.com/users/dana/gists{/gist_id}',
+          starred_url: 'https://api.github.com/users/dana/starred{/owner}{/repo}',
+          subscriptions_url: 'https://api.github.com/users/dana/subscriptions',
+          organizations_url: 'https://api.github.com/users/dana/orgs',
+          repos_url: 'https://api.github.com/users/dana/repos',
+          events_url: 'https://api.github.com/users/dana/events{/privacy}',
+          received_events_url: 'https://api.github.com/users/dana/received_events',
+          type: 'User',
+          site_admin: false,
+          name: 'Dana',
+          company: null,
+          blog: '',
+          location: ' Seoul, Republic of Korea',
+          email: 'dana@market.com',
+          hireable: null,
+          bio: null,
+          twitter_username: null,
+          notification_email: 'dana@market.com',
+          public_repos: 17,
+          public_gists: 0,
+          followers: 37,
+          following: 0,
+          created_at: '2014-05-16T05:37:01Z',
+          updated_at: '2024-07-11T04:24:23Z',
+          private_gists: 1,
+          total_private_repos: 29,
+          owned_private_repos: 29,
+          disk_usage: 2145679,
+          collaborators: 4,
+          two_factor_authentication: true,
+          plan: {
+            name: 'free',
+            space: 976562469,
+            collaborators: 0,
+            private_repos: 10000
+          },
+          providerAccountId: '7599169'
+        }
+      },
+
       createUserRes: {
         "ok": 1,
         "item": {
@@ -1779,6 +1992,97 @@ const doc = {
           "_id": 5,
           "createdAt": "2023.11.21 14:33:41",
           "updatedAt": "2023.11.21 14:33:41"
+        }
+      },
+
+      createUserGoogleRes: {
+        ok: 1,
+        item: {
+          _id: 5,
+          type: 'user',
+          loginType: 'google',
+          name: '데이나',
+          email: 'dana@market.com',
+          image: 'https://lh3.googleusercontent.com/a/ACg8ocKqRBGG4QfyzlASvT7kARFlFHW7s8tQ6XQ-3fDQD6U7lLsqHQ=s96-c',
+          extra: {
+            iss: 'https://accounts.google.com',
+            azp: '589155556571-ffe6qle459tj9q2iu3o497flqr0lkh4s.apps.googleusercontent.com',
+            aud: '589155556571-ffe6qle459tj9q2iu3o497flqr0lkh4s.apps.googleusercontent.com',
+            sub: '117745819340134301470',
+            email: 'dana@market.com',
+            email_verified: true,
+            at_hash: 'ZpVapPfpG2XHUdZGUWMG18w',
+            name: '데이나',
+            picture: 'https://lh3.googleusercontent.com/a/ACg8ocKqRBGG4QfyzlASvT7kARFlFHW7s8tQ6XQ-3fDQD6U7lLsqHQ=s96-c',
+            given_name: '데이나',
+            iat: 1723535998,
+            exp: 1723539598,
+            providerAccountId: '117745819340134301470'
+          },
+          createdAt: '2024.08.14 06:56:10',
+          updatedAt: '2024.08.14 06:56:10'
+        }
+      },
+
+      createUserGithubRes: {
+        ok: 1,
+        item: {
+          _id: 6,
+          type: 'user',
+          loginType: 'github',
+          name: '데이나',
+          email: 'dana@market.com',
+          image: 'https://avatars.githubusercontent.com/u/7599169?v=4',
+          extra: {
+            login: 'dana',
+            id: 7599169,
+            node_id: 'MDQ6VXNlcjc1OTk1Njk=',
+            avatar_url: 'https://avatars.githubusercontent.com/u/7599169?v=4',
+            gravatar_id: '',
+            url: 'https://api.github.com/users/dana',
+            html_url: 'https://github.com/dana',
+            followers_url: 'https://api.github.com/users/dana/followers',
+            following_url: 'https://api.github.com/users/dana/following{/other_user}',
+            gists_url: 'https://api.github.com/users/dana/gists{/gist_id}',
+            starred_url: 'https://api.github.com/users/dana/starred{/owner}{/repo}',
+            subscriptions_url: 'https://api.github.com/users/dana/subscriptions',
+            organizations_url: 'https://api.github.com/users/dana/orgs',
+            repos_url: 'https://api.github.com/users/dana/repos',
+            events_url: 'https://api.github.com/users/dana/events{/privacy}',
+            received_events_url: 'https://api.github.com/users/dana/received_events',
+            type: 'User',
+            site_admin: false,
+            name: 'Dana',
+            company: null,
+            blog: '',
+            location: ' Seoul, Republic of Korea',
+            email: 'dana@market.com',
+            hireable: null,
+            bio: null,
+            twitter_username: null,
+            notification_email: 'dana@market.com',
+            public_repos: 17,
+            public_gists: 0,
+            followers: 37,
+            following: 0,
+            created_at: '2014-05-16T05:37:01Z',
+            updated_at: '2024-07-11T04:24:23Z',
+            private_gists: 1,
+            total_private_repos: 29,
+            owned_private_repos: 29,
+            disk_usage: 2145679,
+            collaborators: 4,
+            two_factor_authentication: true,
+            plan: {
+              name: 'free',
+              space: 976562469,
+              collaborators: 0,
+              private_repos: 10000
+            },
+            providerAccountId: '7599169'
+          },
+          createdAt: '2024.08.14 07:01:39',
+          updatedAt: '2024.08.14 07:01:39'
         }
       },
 

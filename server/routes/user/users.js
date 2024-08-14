@@ -135,6 +135,71 @@ router.get('/email', [
   }
 });
 
+// OAuth 인증 후 자동 회원 가입
+router.post('/signup/oauth', [
+  body('id').optional().trim().notEmpty().withMessage('Auth Provider가 제공하는 사용자 ID를 전달해야 합니다.'),
+  body('type').matches(/^(user|seller)$/).withMessage('회원 구분은 user 또는 seller로 전달해야 합니다.'),
+  body('loginType').optional().trim().notEmpty().withMessage('Auth Provider 이름을 google, github등 필수로 전달해야 합니다.'),
+  body('email').optional().isEmail().withMessage('이메일 형식에 맞지 않습니다.'),
+  body('phone').optional().matches(/^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/).withMessage('휴대폰 형식에 맞지 않습니다.'),
+  body('extra').optional().isObject().withMessage('extra 데이터는 객체로 전달해야 합니다.'),
+], validator.checkResult, async function(req, res, next) {
+  /*
+    #swagger.tags = ['회원']
+    #swagger.summary  = 'OAuth 인증 후 자동 회원 가입'
+    #swagger.description = 'OAuth 인증이 완료된 사용자를 자동으로 회원 가입 시킬때 호출합니다.<br>회원 가입을 완료한 후 회원 정보를 반환합니다.<br>회원 가입 여부를 미리 체크할 필요 없이 OAuth 로그인이 완료되면 항상 호출하도록 구현하면 됩니다.'
+
+    #swagger.requestBody = {
+      description: "회원 정보가 저장된 객체입니다.<br>id: Provider가 제공하는 사용자 id(필수, Auth.js를 사용할 경우 account.providerAccountId)<br>type: 회원 구분(필수, 구매회원: user, 판매회원: seller)<br>loginType: 인증 제공자(필수, google, github 등)<br>email: 이메일(선택)<br>name: 이름(선택)<br>image: 프로필 이미지(선택)<br>extra: 추가 데이터(선택). 추가하고 싶은 아무 속성이나 지정",
+      required: true,
+      content: {
+        "application/json": {
+          schema: { $ref: '#components/schemas/createUserWithOAuth' },
+          examples: { 
+            "google 로그인": { $ref: '#/components/examples/createUserWithGoogle' },
+            "github 로그인": { $ref: '#/components/examples/createUserWithGithub' },
+          }
+        }
+      }
+    }
+    
+    #swagger.responses[201] = {
+      description: '성공',
+      content: {
+        "application/json": {
+          examples: {
+            "google 로그인": { $ref: "#/components/examples/createUserRes" }
+          }
+        }
+      }
+    }
+    #swagger.responses[422] = {
+      description: '입력값 검증 오류',
+      content: {
+        "application/json": {
+          schema: { $ref: '#/components/schemas/error422' }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: '서버 에러',
+      content: {
+        "application/json": {
+          schema: { $ref: '#/components/schemas/error500' }
+        }
+      }
+    }
+  */
+
+  try{
+    const userModel = req.model.user;
+    const item = await userService.signupOAuth(userModel, req.body);
+    res.status(201).json({ok: 1, item});
+  }catch(err){
+    next(err);
+  }
+});
+
 // 로그인
 router.post('/login', [
   body('email').isEmail().withMessage('이메일 형식에 맞지 않습니다.'),
@@ -346,6 +411,82 @@ router.post('/login/kakao', async function(req, res, next) {
   }
 });
 
+// 인증 공급자 기반 로그인(구글, 깃허브 등 인증 공급자를 통한 자동 로그인 처리)
+router.post('/login/with', async function(req, res, next) {
+  /*
+    #swagger.tags = ['회원']
+    #swagger.summary  = '로그인 With ...'
+    #swagger.description = `인증 공급자를 통해 로그인을 합니다.<br>
+    google, github 등의 인증 공급자를 통해 인증을 받은 후 자동으로 로그인 처리를 위해서 호출해야 합니다.<br>
+    응답 데이터에 token 속성으로 JWT 기반의 Access Token과 Refresh Token을 반환합니다.<br>
+    이후 로그인이 필요한 모든 요청에는 Authorization 헤더에 Bearer 방식의 Access Token을 보내야 합니다.`
+
+    #swagger.requestBody = {
+      description: "로그인 정보",
+      required: true,
+      content: {
+        "application/json": {
+          schema: { 
+            type: "object",
+            properties: {
+              providerAccountId: {
+                type: "string",
+                description: "인증 공급자에게 전달받은 계정 ID",
+                example: "1234567"
+              }
+            }
+          },
+          required: ["providerAccountId"]
+        }
+      }
+    }
+
+    #swagger.responses[200] = {
+      description: '로그인 성공',
+      content: {
+        "application/json": {
+          examples: {
+            "google 로그인": { $ref: "#/components/examples/loginGoogleRes" },
+            "github 로그인": { $ref: "#/components/examples/loginGithubRes" }
+          }
+        }
+      }
+    }
+    #swagger.responses[404] = {
+      description: 'providerAccountId를 찾을 수 없음',
+      content: {
+        "application/json": {
+          schema: { $ref: '#/components/schemas/errorUser404' }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: '서버 에러',
+      content: {
+        "application/json": {
+          schema: { $ref: '#/components/schemas/error500' }
+        }
+      }
+    }
+  */
+  try{
+    const userModel = req.model.user;
+    const providerAccountId = req.body.providerAccountId;
+    const user = await userService.loginOAuth(userModel, req.body.providerAccountId);
+
+    if(providerAccountId && user){
+      res.json({
+        ok: 1,
+        item: user
+      });
+    }else{
+      res.status(404).json({ ok: 0, message: '지정한 회원을 찾을 수 없습니다.' });
+    }
+   
+  }catch(err){
+    next(err);
+  }
+});
 
 // 지정한 사용자의 북마크 목록 조회
 router.get('/:_id/bookmarks', async function(req, res, next) {
