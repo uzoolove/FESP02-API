@@ -69,7 +69,7 @@ export const initData = async (clientId, nextSeq) => {
         content: '좋은 정보 많이 공유해 주세요.',
         replies: [
           {
-            _id: 1,
+            _id: await nextSeq('reply'),
             user_id: 2,
             user: {
               _id: 2,
@@ -82,7 +82,7 @@ export const initData = async (clientId, nextSeq) => {
             updatedAt: getTime(-2, -60 * 60 * 2),
           },
           {
-            _id: 2,
+            _id: await nextSeq('reply'),
             user_id: 3,
             user: {
               _id: 3,
@@ -104,7 +104,7 @@ export const initData = async (clientId, nextSeq) => {
         content: '안녕하세요.\r\n오늘 일일 DJ를 하게 된 용디입니다.\r\n\r\n누구나 DJ 게시글에 글을 등록하면 DJ가 될 수 있습니다.\r\n신청곡은 해당 게시글에 댓글로 요청하면 되고 등록한 순서대로 자동 재생이됩니다.\r\n사연도 같이 등록하면 자동으로 사연을 읽어주고 신청곡이 재생됩니다.\r\n\r\n재생할 신청곡이 없으면 DJ가 선곡한 곡이 순서대로 재생되고 한 곡 재생이 완료되면 새로운 신청곡을 체크해서 신청곡이 재생됩니다.',
         videoInfoList: [
           {
-            _id: 1,
+            _id: await nextSeq('reply'),
             videoId: 'E0C-tN9QJ3Q',
             extra: {
               title: '박혜경 - Rain (2002年)',
@@ -116,7 +116,7 @@ export const initData = async (clientId, nextSeq) => {
             content: '',
           },
           {
-            _id: 2,
+            _id: await nextSeq('reply'),
             videoId: 'iSwxR-eO0QM',
             extra: {
               title: '이럴거면(가사) 아이비',
@@ -128,7 +128,7 @@ export const initData = async (clientId, nextSeq) => {
             content: '',
           },
           {
-            _id: 3,
+            _id: await nextSeq('reply'),
             videoId: 'wq4HlLqYyRY',
             extra: {
               title: '헤이즈 (Heize) -  비가 오는 날엔 (2021) / 가사',
@@ -140,7 +140,7 @@ export const initData = async (clientId, nextSeq) => {
             content: '',
           },
           {
-            _id: 4,
+            _id: await nextSeq('reply'),
             videoId: 'atz_aZA3rf0',
             extra: {
               title: 'Ne-Yo - Because Of You (Official Music Video)',
@@ -152,7 +152,7 @@ export const initData = async (clientId, nextSeq) => {
             content: '',
           },
           {
-            _id: 5,
+            _id: await nextSeq('reply'),
             videoId: 'CGxUd7kjnuA',
             extra: {
               title: '허각 - 나를 잊지 말아요 [최고의 사랑 OST] [가사/Lyrics]',
@@ -175,7 +175,7 @@ export const initData = async (clientId, nextSeq) => {
         seller_id: null,
         replies: [
           {
-            _id: 1,
+            _id: await nextSeq('reply'),
             videoId: '4TWR90KJl84',
             content: '넥스트 레베루 프로젝트니까 next level 신청합니다.',
             extra: {
@@ -191,7 +191,7 @@ export const initData = async (clientId, nextSeq) => {
             updatedAt: getTime(-2, -60 * 60 * 2)
           },
           {
-            _id: 2,
+            _id: await nextSeq('reply'),
             videoId: '',
             content: '그냥 댓글만 남겨봅니다.',
             user: {
@@ -203,7 +203,7 @@ export const initData = async (clientId, nextSeq) => {
             updatedAt: getTime(-2, -60 * 60 * 20)
           },          
           {
-            _id: 3,
+            _id: await nextSeq('reply'),
             videoId: 'NIPtyAKxlRs',
             content: '오늘처럼 비가 오는 날엔 이 노래죠',
             extra: {
@@ -219,7 +219,7 @@ export const initData = async (clientId, nextSeq) => {
             updatedAt: getTime(-2, -60 * 60 * 13)
           },
           {
-            _id: 4,
+            _id: await nextSeq('reply'),
             videoId: 'RKhsHGfrFmY',
             content: '',
             extra: {
