@@ -2445,6 +2445,46 @@ const doc = {
         }
       },
 
+      createMemberReply: {
+        content: '크기는 상품 상세정보에 나와 있습니다.',
+      },
+
+      createMemberReplyRes: {
+        "ok": 1,
+        "item": {
+          "content": "크기는 상품 상세정보에 나와 있습니다.",
+          "user": {
+            "_id": 4,
+            "name": "제이지",
+            "image": "/files/00-sample/user-jayg.webp"
+          },
+          "_id": 10,
+          "createdAt": "2024.08.20 10:16:06",
+          "updatedAt": "2024.08.20 10:16:06"
+        }
+      },
+
+      createReply: {
+        content: '크기는 상품 상세정보에 나와 있습니다.',
+        name: '익명의 제보자'
+      },
+
+      createReplyRes: {
+        "ok": 1,
+        "item": {
+          "content": "크기는 상품 상세정보에 나와 있습니다.",
+          "name": "익명의 제보자",
+          "user": {},
+          "_id": 10,
+          "createdAt": "2024.08.20 10:16:06",
+          "updatedAt": "2024.08.20 10:16:06"
+        }
+      },
+
+      
+
+      
+
     }
   }
 }

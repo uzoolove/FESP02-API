@@ -23,15 +23,35 @@ class PostModel{
   }
 
   // 게시글 목록 조회
-  async find({ type='post', search={}, sortBy={}, page=1, limit=0 }){
+  async find({ type='post', userId, search={}, sortBy={}, page=1, limit=0 }){
     logger.trace(arguments);
-    const query = { type, ...search };
+    
+    let query = { type, ...search };
     logger.trace(query);
 
     const skip = (page-1) * limit;
 
     const totalCount = await this.db.post.countDocuments(query);
     // const list = await this.db.post.find(query).sort(sortBy).toArray();
+
+    const nonPrivate = {
+      $or: [
+        { private: { $ne: true } }, // private이 true가 아닌 문서이거나
+        { private: { $exists: false } }, // private 속성이 없는 문서이거나
+        { $and: [
+          { private: true },  // private이 true인 문서 중
+          { $or: [
+            { 'user._id': userId }, // 내가 작성한 문서이거나
+            { $and: [
+              { share: { $exists: true }}, // share 속성이 있으면서
+              { share: { $in: [userId] }}, // share 배열에 사용자 id가 포함된 문서일 경우
+            ]}
+          ]}
+        ]}
+      ]
+    };
+
+    query = { ...query, ...nonPrivate };
 
     let list = this.db.post.aggregate([
       { $match: query },
@@ -116,13 +136,13 @@ class PostModel{
     if(!post.dryRun){
       await this.db.post.updateOne(
         { _id },
-        { 
-          $set: {
-            title: post.title,
-            content: post.content,
-            extra: post.extra,
-            updatedAt: post.updatedAt
-          }
+        { $set: post
+          // $set: {
+          //   title: post.title,
+          //   content: post.content,
+          //   extra: post.extra,
+          //   updatedAt: post.updatedAt
+          // }
         }
       );
     }
