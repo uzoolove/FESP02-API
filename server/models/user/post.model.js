@@ -51,8 +51,17 @@ class PostModel{
       ]
     };
 
-    query = { ...query, ...nonPrivate };
-
+    if (query.$or) {
+      const $and = [
+        {$or: query.$or},
+        nonPrivate
+      ];
+      delete query.$or;
+      query = { ...query, $and };
+    } else {
+      query = { ...query, ...nonPrivate };
+    }
+    
     let list = this.db.post.aggregate([
       { $match: query },
       {
