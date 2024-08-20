@@ -922,7 +922,7 @@ export const initData = async (clientId, nextSeq) => {
         user: {
           _id: 4,
           name: '제이지',
-          image: 'user-jayg.webp'
+          image: `/files/${clientId}/user-jayg.webp`
         },
         type: 'product',
         target_id: 2,
@@ -935,7 +935,7 @@ export const initData = async (clientId, nextSeq) => {
         user: {
           _id: 4,
           name: '제이지',
-          image: 'user-jayg.webp'
+          image: `/files/${clientId}/user-jayg.webp`
         },
         type: 'product',
         target_id: 4,
@@ -948,7 +948,7 @@ export const initData = async (clientId, nextSeq) => {
         user: {
           _id: 4,
           name: '제이지',
-          image: 'user-jayg.webp'
+          image: `/files/${clientId}/user-jayg.webp`
         },
         type: 'user',
         target_id: 2,
@@ -961,7 +961,7 @@ export const initData = async (clientId, nextSeq) => {
         user: {
           _id: 4,
           name: '제이지',
-          image: 'user-jayg.webp'
+          image: `/files/${clientId}/user-jayg.webp`
         },
         type: 'post',
         target_id: 1,
@@ -974,7 +974,7 @@ export const initData = async (clientId, nextSeq) => {
         user: {
           _id: 2,
           name: '네오',
-          image: 'user-neo.webp'
+          image: `/files/${clientId}/user-neo.webp`
         },
         type: 'product',
         target_id: 4,

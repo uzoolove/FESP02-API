@@ -822,8 +822,8 @@ router.post('/:_id/replies', jwtAuth.auth('user', true),  [
     #swagger.requestBody = {
       description: `댓글 정보가 저장된 객체입니다.<br>
         필요한 속성은 자유롭게 추가할 수 있습니다.<br><br>
-        content: 내용(필수)`<br>
-        name: 작성자(선택, 전달하면 서버에 user.name 속성으로 저장됨),
+        content: 내용(필수)<br>
+        name: 작성자(선택, 전달하면 서버에 user.name 속성으로 저장됨)`,
       required: true,
       content: {
         "application/json": {
