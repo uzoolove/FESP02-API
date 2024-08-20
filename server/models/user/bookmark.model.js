@@ -45,7 +45,24 @@ class BookmarkModel {
           [`${query.type}.price`]: `$${query.type}.price`,
           [`${query.type}.quantity`]: `$${query.type}.quantity`,
           [`${query.type}.buyQuantity`]: `$${query.type}.buyQuantity`,
-          [`${query.type}.image`]: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
+          // 상품 북마크일 경우 상품의 메인 이미지 첫번째
+          [`${query.type}.mainImages`]: {
+            $cond: {
+              if: { $eq: [query.type, 'product'] },
+              then: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
+              else: '$$REMOVE'
+            }
+          },
+          // 사용자 북마크일 경우 사용자 프로필 이미지
+          [`${query.type}.image`]: {
+            $cond: {
+              if: { $eq: [query.type, 'user'] },
+              then: `$${query.type}.image`,
+              else: '$$REMOVE'
+            }
+          },
+          // [`${query.type}.image`]: `$${query.type}.image`,
+          // [`${query.type}.mainImages`]: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
           [`${query.type}.type`]: `$${query.type}.type`,
           [`${query.type}.user`]: `$${query.type}.user`,
           [`${query.type}.product_id`]: `$${query.type}.product_id`,
@@ -91,7 +108,7 @@ class BookmarkModel {
 
 
 
-  // 북마크 목록 조회
+  // 상품에 대한 북마크 목록 조회
   async findByProduct(product_id){
     logger.trace(arguments);
     const list = await this.db.bookmark.find({ type: 'product', target_id: product_id }).toArray();
