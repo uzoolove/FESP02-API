@@ -162,6 +162,6 @@ class ReplyModel {
     logger.debug(list);
     return list;
   }
-};
+}
 
 export default ReplyModel;
