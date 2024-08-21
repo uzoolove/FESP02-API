@@ -1,20 +1,20 @@
 import express from 'express';
-import { param } from 'express-validator';
+import { param, body } from 'express-validator';
 
 import validator from '#middlewares/validator.js';
 
 const router = express.Router();
 
 // 북마크 추가
-router.post('/:type/:target_id', [
+router.post('/:type', [
   param('type').matches(/^(product|post|user)$/).withMessage('북마크 종류는 product, post, user 중 하나로 전달해야 합니다.'),
-  param('target_id').isInt().withMessage('북마크 대상 id는 정수만 입력 가능합니다.'),
+  body('target_id').isInt().withMessage('북마크 대상 id는 정수만 입력 가능합니다.'),
 ], validator.checkResult, async function(req, res, next) {
 
   /*
     #swagger.tags = ['북마크']
     #swagger.summary  = '북마크 추가'
-    #swagger.description = '상품 | 사용자 | 게시글을 북마크에 추가합니다.'
+    #swagger.description = '상품 | 사용자 | 게시글에 북마크를 추가합니다.'
     
     #swagger.security = [{
       "Access Token": []
@@ -24,22 +24,18 @@ router.post('/:type/:target_id', [
       description: `북마크 종류<br>
         product: 상품에 대한 북마크<br>
         user: 사용자에 대한 북마크<br>
-        post: 게시글에 대한 북마크`,
+        post: 게시글에 대한 북마크<br>`,
       in: 'path',
       required: true,
       type: 'string',
       example: 'product'
     }
-    #swagger.parameters['target_id'] = {
-      description: '북마크 대상 id (상품 id | 사용자 id | 게시글 id)',
-      in: 'path',
-      required: true,
-      type: 'number',
-      example: '2'
-    }
+
     #swagger.requestBody = {
-      description: "추가 정보<br>북마크에 추가할 아무 속성이나 지정할 수 있습니다.",
-      required: false,
+      description: `target_id: (필수) 북마크 대상 id (상품 id | 사용자 id | 게시글 id)<br>
+        memo: (선택) 북마크 메모<br>
+        extra: (선택) 자유롭게 지정하는 추가 정보<br>`,
+      required: true,
       content: {
         "application/json": {
           schema: { $ref: '#components/schemas/addBookmarkBody' },

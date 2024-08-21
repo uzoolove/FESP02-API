@@ -2,7 +2,7 @@ import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
-    version: '2.0.1',
+    version: '3.0.0',
     title: '오픈마켓 API',
     description: `오픈마켓 API Server입니다.<br>
       <a href="/">버전별 변경사항 확인</a>`,
@@ -434,6 +434,7 @@ const doc = {
             },
             "replies": 0,
             "bookmarks": 2,
+            "rating": 4.5,
             "myBookmarkId": 2,
             "options": 0
           }
@@ -507,6 +508,7 @@ const doc = {
           },
           "replies": [],
           "bookmarks": 2,
+          "rating": 4.5,
           "myBookmarkId": 2,
           "options": [],
         }
@@ -1092,7 +1094,11 @@ const doc = {
       },
 
       addBookmarkBody: {
-        "memo": "다음에 재구매"
+        "target_id": 4,
+        "memo": "다음에 재구매",
+        "extra": {
+          "type": "TECH"
+        }
       },
 
       addBookmarkRes: {
@@ -1344,6 +1350,8 @@ const doc = {
                 "orgName": "스턴트 독.jpg"
               }
             },
+            "bookmarks": 2,
+            "myBookmarkId": 23,
             "repliesCount": 3
           }
         ],
