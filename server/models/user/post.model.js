@@ -127,11 +127,52 @@ class PostModel{
     if(justView){ // 처음 조회때만 조회수 증가(댓글 목록 조회를 위해 호출될 경우 조회수 증가 방지)
       item = await this.db.post.findOne({ _id });
     }else{
-      item = await this.db.post.findOneAndUpdate(
-        { _id },
-        { $inc: { views: 1 } },
-        { returnDocument: 'after' } // 업데이트된 문서 반환
+
+      await this.db.post.updateOne(
+        { _id: _id },
+        { $inc: { views: 1 } }
       );
+
+      item = await this.db.post.aggregate([
+        { $match: { _id }},
+        {
+          $lookup: {
+            from: 'product',
+            localField: 'product_id',
+            foreignField: '_id',
+            as: 'temp_product'
+          }
+        },
+        { 
+          $unwind: {
+            path: '$product',
+            preserveNullAndEmptyArrays: true
+          }
+        },
+        {
+          $addFields: {
+            // 'product' 필드에서 필요한 속성만 포함
+            product: {
+              name: "$temp_product.name",
+              mainImages: "$temp_product.mainImages"
+            }
+          }
+        },
+        {
+          $project: {
+            "temp_product": 0
+          }
+        }
+      ]).next();
+
+      
+
+      // 상품 게시물 조회시 상품 정보를 추가로 가져오기 위해 aggregate로 바꿈
+      // item = await this.db.post.findOneAndUpdate(
+      //   { _id },
+      //   { $inc: { views: 1 } },
+      //   { returnDocument: 'after' } // 업데이트된 문서 반환
+      // );
     }
     
     logger.debug(item);
