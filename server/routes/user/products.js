@@ -17,7 +17,10 @@ router.get('/', [
   /*
     #swagger.tags = ['상품']
     #swagger.summary  = '상품 목록 조회'
-    #swagger.description = '상품 목록을 조회합니다.<br>지원되는 검색 조건 이외의 속성으로 검색할 경우 custom 파라미터를 이용하면 됩니다.<br>custom 파라미터에 지정하는 값은 MongoDB 검색어로 사용되며, api 클라이언트 프로그램의 샘플 예제 이외에 더 자세한 검색 조건 지정은 다음 문서를 참고하세요.<br><a target="_blank" href="https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/query-document">검색어 지정 방법</a>'
+    #swagger.description = `상품 목록을 조회합니다.<br>
+      지원되는 검색 조건 이외의 속성으로 검색할 경우 custom 파라미터를 이용하면 됩니다.<br>
+      custom 파라미터에 지정하는 값은 MongoDB 검색어로 사용되며, api 클라이언트 프로그램의 샘플 예제 이외에 더 자세한 검색 조건 지정은 다음 문서를 참고하세요.<br>
+      <a target="_blank" href="https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/query-document">검색어 지정 방법</a>`
 
     #swagger.parameters['minPrice'] = {
       description: "최저 가격",
