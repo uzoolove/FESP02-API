@@ -1,8 +1,6 @@
 import express from 'express';
 import _ from 'lodash';
-import cache from 'memory-cache';
-import logger from '#utils/logger.js';
-import { query, body, param } from 'express-validator';
+import { query, body } from 'express-validator';
 import jwtAuth from '#middlewares/jwtAuth.js';
 import validator from '#middlewares/validator.js';
 
@@ -523,7 +521,8 @@ router.get('/:_id', jwtAuth.auth('user', true), async function(req, res, next) {
   /*
     #swagger.tags = ['게시판']
     #swagger.summary  = '게시글 상세'
-    #swagger.description = '게시글을 상세 조회합니다.'
+    #swagger.description = `게시글을 상세 조회합니다.<br>
+      상품 게시글일 경우 product 속성에 상품명, 상품이미지가 추가됩니다.`
     
     #swagger.parameters['_id'] = {
       description: "게시글 id",
@@ -536,7 +535,10 @@ router.get('/:_id', jwtAuth.auth('user', true), async function(req, res, next) {
       description: '성공',
       content: {
         "application/json": {
-          schema: { $ref: "#/components/schemas/postDetailRes" }
+          examples: {
+            "게시물": { $ref: "#/components/examples/postDetailRes" },
+            "상품 게시물": { $ref: "#/components/examples/productPostDetailRes" },
+          }
         }
       }
     }
