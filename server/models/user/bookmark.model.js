@@ -71,27 +71,6 @@ class BookmarkModel {
           [`${query.type}.user`]: `$${query.type}.user`,
           // [`${query.type}.product_id`]: `$${query.type}.product_id`,
           
-          
-
-          // 상품 북마크일 경우 상품의 메인 이미지 첫번째
-          // [`${query.type}.mainImages`]: {
-          //   $cond: {
-          //     if: { $eq: [query.type, 'product'] },
-          //     then: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
-          //     else: '$$REMOVE'
-          //   }
-          // },
-          // // 사용자 북마크일 경우 사용자 프로필 이미지
-          // [`${query.type}.image`]: {
-          //   $cond: {
-          //     if: { $eq: [query.type, 'user'] },
-          //     then: `$${query.type}.image`,
-          //     else: '$$REMOVE'
-          //   }
-          // },
-
-
-          
         }
       }
     ]).toArray();
@@ -123,10 +102,6 @@ class BookmarkModel {
       product: await this.findBy({ type: 'product', user_id }),
       post: await this.findBy({ type: 'post', user_id })
     };
-
-    // bookmarkList.forEach(item => {
-    //   result[item.type] = item.bookmarks;
-    // });
     
     logger.debug(result);
     return result;
