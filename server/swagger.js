@@ -2,7 +2,7 @@ import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
-    version: '2.0.0',
+    version: '2.0.1',
     title: '오픈마켓 API',
     description: `오픈마켓 API Server입니다.<br>
       <a href="/">버전별 변경사항 확인</a>`,
@@ -1355,56 +1355,7 @@ const doc = {
         }
       },
 
-      postDetailRes: {
-        "ok": 1,
-        "item": {
-          "_id": 1,
-          "type": "qna",
-          "product_id": 1,
-          "seller_id": 2,
-          "user": {
-            "_id": 4,
-            "name": "제이지"
-          },
-          "title": "크기가 얼만만한가요?",
-          "content": "아이가 6살인데 가지고 놀기 적당한 크기인가요?",
-          "replies": [
-            {
-              "_id": 1,
-              "user": {
-                "_id": 2,
-                "name": "네오"
-              },
-              "content": "크기는 상품 상세정보에 나와 있습니다.",
-              "createdAt": "2024.04.09 03:08:10",
-              "updatedAt": "2024.04.09 21:08:10"
-            },
-            {
-              "_id": 2,
-              "user": {
-                "_id": 4,
-                "name": "제이지"
-              },
-              "content": "어디있나 모르겠어요.",
-              "createdAt": "2024.04.09 13:08:10",
-              "updatedAt": "2024.04.09 22:08:10"
-            },
-            {
-              "_id": 3,
-              "user": {
-                "_id": 2,
-                "name": "네오"
-              },
-              "content": "높이 60cm 입니다.",
-              "createdAt": "2024.04.09 14:08:10",
-              "updatedAt": "2024.04.10 03:08:10"
-            }
-          ],
-          "createdAt": "2024.04.08 21:08:10",
-          "updatedAt": "2024.04.08 21:08:10"
-        }
-      },
-
+      
       userListRes: {
         "ok": 1,
         "item": [
@@ -2125,6 +2076,122 @@ const doc = {
           updatedAt: '2024.08.14 07:01:39'
         }
       },
+
+      postDetailRes: {
+        "ok": 1,
+        "item": {
+          "_id": 1,
+          "type": "qna",
+          "product_id": 1,
+          "seller_id": 2,
+          "user": {
+            "_id": 4,
+            "name": "제이지",
+            "email": "u1@market.com",
+            "image": "user-jayg.webp"
+          },
+          "title": "크기가 얼만만한가요?",
+          "content": "아이가 6살인데 가지고 놀기 적당한 크기인가요?",
+          "replies": [
+            {
+              "_id": 1,
+              "user_id": 2,
+              "user": {
+                "_id": 2,
+                "name": "네오",
+                "email": "s1@market.com",
+                "image": "user-neo.webp"
+              },
+              "content": "크기는 상품 상세정보에 나와 있습니다.",
+              "like": 5,
+              "createdAt": "2024.08.11 22:03:51",
+              "updatedAt": "2024.08.12 16:03:51"
+            },
+            {
+              "_id": 2,
+              "user_id": 4,
+              "user": {
+                "_id": 4,
+                "name": "제이지",
+                "email": "u1@market.com",
+                "image": "user-jayg.webp"
+              },
+              "content": "어디있나 모르겠어요.",
+              "like": 7,
+              "createdAt": "2024.08.12 08:03:51",
+              "updatedAt": "2024.08.12 17:03:51"
+            }
+          ],
+          "createdAt": "2024.04.08 21:08:10",
+          "updatedAt": "2024.04.08 21:08:10"
+        }
+      },
+
+      productPostDetailRes: {
+        "ok": 1,
+        "item": {
+          "_id": 1,
+          "type": "qna",
+          "product_id": 1,
+          "seller_id": 2,
+          "views": 34,
+          "user": {
+            "_id": 4,
+            "name": "제이지",
+            "email": "u1@market.com",
+            "image": "user-jayg.webp"
+          },
+          "title": "크기가 얼만만한가요?",
+          "content": "아이가 6살인데 가지고 놀기 적당한 크기인가요?",
+          "replies": [
+            {
+              "_id": 1,
+              "user_id": 2,
+              "user": {
+                "_id": 2,
+                "name": "네오",
+                "email": "s1@market.com",
+                "image": "user-neo.webp"
+              },
+              "content": "크기는 상품 상세정보에 나와 있습니다.",
+              "like": 5,
+              "createdAt": "2024.08.11 22:03:51",
+              "updatedAt": "2024.08.12 16:03:51"
+            },
+            {
+              "_id": 2,
+              "user_id": 4,
+              "user": {
+                "_id": 4,
+                "name": "제이지",
+                "email": "u1@market.com",
+                "image": "user-jayg.webp"
+              },
+              "content": "어디있나 모르겠어요.",
+              "like": 7,
+              "createdAt": "2024.08.12 08:03:51",
+              "updatedAt": "2024.08.12 17:03:51"
+            }
+          ],
+          "createdAt": "2024.08.11 16:03:51",
+          "updatedAt": "2024.08.11 16:03:51",
+          "product": {
+            "name": [
+              "캥거루 스턴트 독 로봇완구"
+            ],
+            "mainImages": [
+              [
+                {
+                  "path": "/files/00-sample/sample-dog.jpg",
+                  "name": "sample-dog.jpg",
+                  "originalname": "스턴트 독.jpg"
+                }
+              ]
+            ]
+          }
+        }
+      },
+
 
       userInfoRes: {
         "ok": 1,
