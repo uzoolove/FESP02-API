@@ -22,6 +22,7 @@ const jwtAuth = {
               _id: payload._id,
               type: payload.type,
               name: payload.name,
+              email: payload.email,
               image: payload.image
             };
           }else{
