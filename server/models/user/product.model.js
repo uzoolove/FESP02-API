@@ -67,6 +67,19 @@ class ProductModel {
         }
       },
 
+      // 후기 점수 평균 계산
+      {
+        $addFields: {
+          rating: {
+            $cond: {
+              if: { $gt: [{ $size: "$replyItems" }, 0] }, // replyItems 배열이 존재하고 요소가 있을 때
+              then: { $avg: "$replyItems.rating" },        // rating 계산
+              else: "$$REMOVE"                             // 필드를 제거
+            }
+          }
+        }
+      },
+
       // 북마크 목록
       {
         $lookup: {
@@ -239,6 +252,19 @@ class ProductModel {
           localField: "_id",
           foreignField: "product_id",
           as: "replies"
+        }
+      },
+
+      // 후기 점수 평균 계산
+      {
+        $addFields: {
+          rating: {
+            $cond: {
+              if: { $gt: [{ $size: "$replies" }, 0] }, // replyItems 배열이 존재하고 요소가 있을 때
+              then: { $avg: "$replies.rating" },        // rating 계산
+              else: "$$REMOVE"                             // 필드를 제거
+            }
+          }
         }
       },
 
