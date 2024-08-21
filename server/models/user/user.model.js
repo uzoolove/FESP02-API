@@ -74,7 +74,7 @@ class UserModel{
       {
         $lookup: {
           from: "bookmark",
-          let: { userId: "$_id" },
+          let: { userId: "$_id" }, // let userId = user._id
           pipeline: [
             {
               $match: {
@@ -101,7 +101,7 @@ class UserModel{
                 $expr: {
                   $and: [
                     { $eq: ["$user_id", "$$userId"] },
-                    { $eq: ["$type", "user"] } // 상품에 대한 북마크는 type이 product로 지정됨
+                    { $eq: ["$type", "user"] } // 사용자에 대한 북마크는 type이 user로 지정됨
                   ]
                 }
               }
@@ -121,7 +121,7 @@ class UserModel{
                 $expr: {
                   $and: [
                     { $eq: ["$user_id", "$$userId"] },
-                    { $eq: ["$type", "post"] } // 상품에 대한 북마크는 type이 product로 지정됨
+                    { $eq: ["$type", "post"] } // 게시물에 대한 북마크는 type이 post로 지정됨
                   ]
                 }
               }
@@ -131,12 +131,35 @@ class UserModel{
         }
       },
 
+      // 지정한 회원을 북마크한 사람들
+      {
+        $lookup: {
+          from: "bookmark",
+          let: { userId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$target_id", "$$userId"] },
+                    { $eq: ["$type", "user"] } // 게시물에 대한 북마크는 type이 post로 지정됨
+                  ]
+                }
+              }
+            }
+          ],
+          as: "bookmarkedBy.userItems"
+        }
+      },
+
+
       // 북마크 수
       {
         $addFields: {
           'bookmark.products': { $size: "$bookmark.productItems" },
           'bookmark.users': { $size: "$bookmark.userItems" },
           'bookmark.posts': { $size: "$bookmark.postItems" },
+          'bookmarkedBy.users': { $size: "$bookmarkedBy.userItems" },
         }
       },
 
@@ -163,6 +186,7 @@ class UserModel{
           'user.bookmark.productItems': 0,
           'user.bookmark.userItems': 0,
           'user.bookmark.postItems': 0,
+          'user.bookmarkedBy.userItems': 0,
         }
       },
       
@@ -173,7 +197,10 @@ class UserModel{
     
     // const item = await this.db.user.findOne({ _id }, { projection: { password: 0, refreshToken: 0, }});
 
-    const user = { ...item.user, postViews: item.postViews }
+    let user = null;
+    if(item){
+      user = { ...item.user, postViews: item.postViews };
+    }
     logger.debug(user);
     return user;
   }
@@ -195,6 +222,6 @@ class UserModel{
     logger.debug(result);
     return true;
   }
-};
+}
 
 export default UserModel;

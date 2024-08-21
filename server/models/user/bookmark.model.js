@@ -28,12 +28,18 @@ class BookmarkModel {
       {
         $lookup: {
           from: query.type, // product|post|user
-          localField: `target_id`,
-          foreignField: '_id',
+          localField: `target_id`, // bookmark.target_id
+          foreignField: '_id', // (product|post|user)._id
           as: query.type
         }
       }, 
-      { $unwind: `$${query.type}` }, 
+      { $unwind: `$${query.type}` }, // 원본이 삭제된 경우 조회되지 않음
+      // {
+      //   $unwind: { // 원본이 삭제된 경우에도 원본 정보는 빈 객체로 조회됨
+      //     path: `$${query.type}`,
+      //     preserveNullAndEmptyArrays: true
+      //   }
+      // },
       {
         $project: {
           _id: 1,
@@ -77,10 +83,10 @@ class BookmarkModel {
     return list;
   }
 
-  // 사용자의 북마크 목록 조회
+  // 지정한 사용자의 북마크 목록 조회
   async findByUser(user_id){
     logger.trace(arguments);
-    const list = await this.db.bookmark.aggregate([
+    const bookmarkList = await this.db.bookmark.aggregate([
       { $match: { user_id } },
       {
         $group: {
@@ -92,21 +98,36 @@ class BookmarkModel {
         $project: {
           _id: 0,
           type: "$_id",
-          bookmarks: 1
+          bookmarks: 1,
+        }
+      }
+    ]).toArray();
+
+    const bookmarkedList = await this.db.bookmark.aggregate([
+      { $match: { type: 'user', target_id: user_id } },
+      {
+        $project: {
+          _id: 0,
+          user_id: '$user._id',
+          name: '$user.name',
+          image: '$user.image'
         }
       }
     ]).toArray();
     
-    const finalResult = {};
-    list.forEach(item => {
+    const finalResult = { 
+      byUser: bookmarkedList,
+      user: [],
+      product: [],
+      post: []
+    };
+    bookmarkList.forEach(item => {
       finalResult[item.type] = item.bookmarks;
     });
     
     logger.debug(finalResult);
     return finalResult;
   }
-
-
 
   // 상품에 대한 북마크 목록 조회
   async findByProduct(product_id){
@@ -119,7 +140,6 @@ class BookmarkModel {
 
   // 지정한 검색 조건으로 북마크 한건 조회
   async findOneBy(query){
-    logger.trace(arguments);
     const result = await this.findBy(query);
     logger.debug(result[0]);
     return result[0];

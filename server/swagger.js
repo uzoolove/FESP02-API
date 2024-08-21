@@ -1110,6 +1110,18 @@ const doc = {
       userBookmarkListRes: {
         "ok": 1,
         "item": {
+          "byUser": [
+            {
+              "user_id": 4,
+              "name": "제이지",
+              "image": "user-jayg.webp"
+            },
+            {
+              "user_id": 2,
+              "name": "네오",
+              "image": "/files/00-next-level/user-neo.webp"
+            }
+          ],
           "user": [
             {
               "_id": 3,
@@ -1652,7 +1664,7 @@ const doc = {
             "value": "승인"
           }
         ]
-     },
+      },
       updateMembershipClassCode: {
         "title": "회원 등급",
         "codes": [
@@ -2101,9 +2113,12 @@ const doc = {
           "updatedAt": "2024.04.10 08:59:44",
           "posts": 2,
           "bookmark": {
-            "products": 0,
-            "users": 0,
-            "posts": 0
+            "products": 2,
+            "users": 4,
+            "posts": 17
+          },
+          "bookmarkedBy": {
+            "users": 2
           },
           "postViews": 55
         }

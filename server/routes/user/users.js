@@ -494,10 +494,11 @@ router.get('/:_id/bookmarks', async function(req, res, next) {
   /*
     #swagger.tags = ['회원']
     #swagger.summary  = '사용자의 모든 북마크 목록 조회'
-    #swagger.description = `지정한 사용자의 모든 북마크 목록(상품, 사용자, 게시글)을 조회합니다.<br>
+    #swagger.description = `지정한 사용자의 모든 북마크 목록(상품, 사용자, 게시글, 지정한 사용자를 북마크한 사용자 목록)을 조회합니다.<br>
       응답 데이터의 user 속성에 사용자에 대한 북마크 목록이,<br>
       product 속성에 상품에 대한 북마크 목록이,<br>
-      post 속성에 게시글에 대한 북마크 목록이 저장되어 있습니다.`
+      post 속성에 게시글에 대한 북마크 목록이,<br>
+      byUser 속성에 지정한 사용자를 북마크한 사용자 목록 저장되어 있습니다.`
     
     #swagger.parameters['_id'] = {
       description: "조회할 회원 id",
@@ -539,7 +540,7 @@ router.get('/:_id/bookmarks', async function(req, res, next) {
 
 
 // 회원 조회(단일 속성)
-router.get('/:_id/*', jwtAuth.auth('user'), async function(req, res, next) {
+router.get('/:_id/*', /*jwtAuth.auth('user'),*/ async function(req, res, next) {
   /*  
     #swagger.auto = false
 
@@ -551,10 +552,6 @@ router.get('/:_id/*', jwtAuth.auth('user'), async function(req, res, next) {
     #swagger.method = 'get'
     #swagger.produces = ['application/json']
     #swagger.consumes = ['application/json']
-
-    #swagger.security = [{
-      "Access Token": []
-    }]
 
     #swagger.parameters['_id'] = {
       description: "조회할 회원 id",
@@ -577,14 +574,6 @@ router.get('/:_id/*', jwtAuth.auth('user'), async function(req, res, next) {
             "users/5/name 조회": { $ref: "#/components/examples/userInfoResOneAttr" },
             "users/5/extra/addressBook 조회": { $ref: "#/components/examples/userInfoResWithExtra" }
           }
-        }
-      }
-    }
-    #swagger.responses[401] = {
-      description: '인증 실패',
-      content: {
-        "application/json": {
-          schema: { $ref: "#/components/schemas/error401" }
         }
       }
     }
@@ -613,7 +602,12 @@ router.get('/:_id/*', jwtAuth.auth('user'), async function(req, res, next) {
       const attr = req.params[0].replaceAll('/', '.');
       logger.log(attr);
       const item = await userModel.findAttrById(Number(req.params._id), attr);
-      res.json({ok: 1, item});
+      if(item){
+        res.json({ok: 1, item});
+      }else{
+        next(); // 404
+      }
+      
     // }else{
     //   next(); // 404
     // }
@@ -623,23 +617,19 @@ router.get('/:_id/*', jwtAuth.auth('user'), async function(req, res, next) {
 });
 
 // 회원 조회(모든 속성)
-router.get('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
+router.get('/:_id', /*jwtAuth.auth('user'),*/ async function(req, res, next) {
   /*
     #swagger.tags = ['회원']
     #swagger.summary  = '회원 정보 조회(모든 속성)'
     #swagger.description = `회원 정보의 모든 속성을 조회합니다.<br>
-      등록한 속성 이외에 다음의 정보가 추가됩니다.<br>
-      posts: 지정한 사용자가 작성한 게시글 수
-      postViews: 지정한 사용자가 작성한 모든 게시글 조회수
-      bookmark.products: 지정한 사용자가 북마크 한 상품 수
-      bookmark.users: 지정한 사용자가 북마크 한 사용자 수
-      bookmark.posts: 지정한 사용자가 북마크 한 게시글 수
+      등록한 회원 정보 이외에 다음의 정보가 추가됩니다.<br><br>
+      posts: 지정한 사용자가 작성한 게시글 수<br>
+      postViews: 지정한 사용자가 작성한 모든 게시글 조회수<br>
+      bookmark.products: 지정한 사용자가 북마크 한 상품 수<br>
+      bookmark.users: 지정한 사용자가 북마크 한 사용자 수<br>
+      bookmark.posts: 지정한 사용자가 북마크 한 게시글 수<br>
+      bookmarkedBy.users: 지정한 사용자를 북마크한 사용자 수<br>
     `
-
-    #swagger.security = [{
-      "Access Token": []
-    }]
-
     #swagger.parameters['_id'] = {
       description: "조회할 회원 id",
       in: 'path',
@@ -652,20 +642,12 @@ router.get('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
       content: {
         "application/json": {
           examples: {
-            "기본 속성": { $ref: "#/components/examples/userInfoRes" },
-            "extra 속성": { $ref: "#/components/examples/userInfoResWithExtra" }
+            "예시": { $ref: "#/components/examples/userInfoRes" }
           }
         }
       }
     }
-    #swagger.responses[401] = {
-      description: '인증 실패',
-      content: {
-        "application/json": {
-          schema: { $ref: "#/components/schemas/error401" }
-        }
-      }
-    }
+
     #swagger.responses[404] = {
       description: '회원이 존재하지 않거나 접근 권한 없음',
       content: {
@@ -692,7 +674,7 @@ router.get('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
       if(result){
         res.json({ok: 1, item: result});
       }else{
-        next();
+        next(); // 404
       }      
     // }else{
     //   next(); // 404
