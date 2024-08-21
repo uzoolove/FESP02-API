@@ -875,6 +875,7 @@ router.post('/:_id/replies', jwtAuth.auth('user', true),  [
       reply.user = {
         _id: req.user?._id,
         name: req.user?.name || req.name, // 익명댓글일 경우 name 속성에 작성자 이름
+        email: req.user?.email,
         image: req.user?.image
       };
       // reply.user_id = req.user._id;
