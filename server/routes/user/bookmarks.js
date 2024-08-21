@@ -103,6 +103,7 @@ router.post('/:type/:target_id', [
       bookmarkInfo.user = {
         _id: req.user._id,
         name: req.user.name,
+        email: req.user.email,
         image: req.user.image
       }
       Object.assign(bookmarkInfo, req.body);

@@ -42,39 +42,55 @@ class BookmarkModel {
       // },
       {
         $project: {
+          // bookmark
           _id: 1,
-          user_id: 1,
-          // target_id: 1,
           memo: 1,
+          createdAt: 1,
+
+          // product, user, post 공통
           [`${query.type}._id`]: `$${query.type}._id`,
+          // [`${query.type}.extra`]: `$${query.type}.extra`,
+          
+          // product, user
           [`${query.type}.name`]: `$${query.type}.name`,
+
+          // product
           [`${query.type}.price`]: `$${query.type}.price`,
           [`${query.type}.quantity`]: `$${query.type}.quantity`,
           [`${query.type}.buyQuantity`]: `$${query.type}.buyQuantity`,
-          // 상품 북마크일 경우 상품의 메인 이미지 첫번째
-          [`${query.type}.mainImages`]: {
-            $cond: {
-              if: { $eq: [query.type, 'product'] },
-              then: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
-              else: '$$REMOVE'
-            }
-          },
-          // 사용자 북마크일 경우 사용자 프로필 이미지
-          [`${query.type}.image`]: {
-            $cond: {
-              if: { $eq: [query.type, 'user'] },
-              then: `$${query.type}.image`,
-              else: '$$REMOVE'
-            }
-          },
-          // [`${query.type}.image`]: `$${query.type}.image`,
-          // [`${query.type}.mainImages`]: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
+          [`${query.type}.mainImages`]: `$${query.type}.mainImages`,
+
+          // user
+          [`${query.type}.email`]: `$${query.type}.email`,
+          [`${query.type}.image`]: `$${query.type}.image`,
+          
+          // post
           [`${query.type}.type`]: `$${query.type}.type`,
-          [`${query.type}.user`]: `$${query.type}.user`,
-          [`${query.type}.product_id`]: `$${query.type}.product_id`,
           [`${query.type}.title`]: `$${query.type}.title`,
-          [`${query.type}.extra`]: `$${query.type}.extra`,
-          createdAt: 1
+          [`${query.type}.user`]: `$${query.type}.user`,
+          // [`${query.type}.product_id`]: `$${query.type}.product_id`,
+          
+          
+
+          // 상품 북마크일 경우 상품의 메인 이미지 첫번째
+          // [`${query.type}.mainImages`]: {
+          //   $cond: {
+          //     if: { $eq: [query.type, 'product'] },
+          //     then: { $arrayElemAt: [`$${query.type}.mainImages`, 0] },
+          //     else: '$$REMOVE'
+          //   }
+          // },
+          // // 사용자 북마크일 경우 사용자 프로필 이미지
+          // [`${query.type}.image`]: {
+          //   $cond: {
+          //     if: { $eq: [query.type, 'user'] },
+          //     then: `$${query.type}.image`,
+          //     else: '$$REMOVE'
+          //   }
+          // },
+
+
+          
         }
       }
     ]).toArray();
@@ -86,22 +102,6 @@ class BookmarkModel {
   // 지정한 사용자의 북마크 목록 조회
   async findByUser(user_id){
     logger.trace(arguments);
-    const bookmarkList = await this.db.bookmark.aggregate([
-      { $match: { user_id } },
-      {
-        $group: {
-          _id: "$type",
-          bookmarks: { $push: "$$ROOT" }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          type: "$_id",
-          bookmarks: 1,
-        }
-      }
-    ]).toArray();
 
     const bookmarkedList = await this.db.bookmark.aggregate([
       { $match: { type: 'user', target_id: user_id } },
@@ -110,23 +110,25 @@ class BookmarkModel {
           _id: 0,
           user_id: '$user._id',
           name: '$user.name',
+          email: '$user.email',
           image: '$user.image'
         }
       }
     ]).toArray();
     
-    const finalResult = { 
+    const result = { 
       byUser: bookmarkedList,
-      user: [],
-      product: [],
-      post: []
+      user: await this.findBy({ type: 'user', user_id }),
+      product: await this.findBy({ type: 'product', user_id }),
+      post: await this.findBy({ type: 'post', user_id })
     };
-    bookmarkList.forEach(item => {
-      finalResult[item.type] = item.bookmarks;
-    });
+
+    // bookmarkList.forEach(item => {
+    //   result[item.type] = item.bookmarks;
+    // });
     
-    logger.debug(finalResult);
-    return finalResult;
+    logger.debug(result);
+    return result;
   }
 
   // 상품에 대한 북마크 목록 조회
