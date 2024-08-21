@@ -495,10 +495,10 @@ router.get('/:_id/bookmarks', async function(req, res, next) {
     #swagger.tags = ['회원']
     #swagger.summary  = '사용자의 모든 북마크 목록 조회'
     #swagger.description = `지정한 사용자의 모든 북마크 목록(상품, 사용자, 게시글, 지정한 사용자를 북마크한 사용자 목록)을 조회합니다.<br>
-      응답 데이터의 user 속성에 사용자에 대한 북마크 목록이,<br>
-      product 속성에 상품에 대한 북마크 목록이,<br>
-      post 속성에 게시글에 대한 북마크 목록이,<br>
-      byUser 속성에 지정한 사용자를 북마크한 사용자 목록 저장되어 있습니다.`
+      user: 사용자에 대한 북마크 목록<br>
+      product: 상품에 대한 북마크 목록<br>
+      post: 게시글에 대한 북마크 목록<br>
+      byUser: 지정한 사용자를 북마크한 사용자 목록<br>`
     
     #swagger.parameters['_id'] = {
       description: "조회할 회원 id",
@@ -773,6 +773,150 @@ router.patch('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
     }else{
       next(); // 404
     }
+  }catch(err){
+    next(err);
+  }
+});
+
+// 회원 목록 조회
+router.get('/', [
+  query('custom').optional().isJSON().withMessage('custom 값은 JSON 형식의 문자열이어야 합니다.'),
+  query('sort').optional().isJSON().withMessage('sort 값은 JSON 형식의 문자열이어야 합니다.')
+], validator.checkResult, async function(req, res, next) {
+
+  /*
+    #swagger.tags = ['회원']
+    #swagger.summary  = '회원 목록 조회'
+    #swagger.description = `회원 목록을 조회합니다.<br>
+      password, refreshToken, private 속성을 제외한 모든 사용자 정보를 반환합니다.<br>
+      지원되는 검색 조건 이외의 속성으로 검색할 경우 custom 파라미터를 이용하면 됩니다.`
+    
+    #swagger.parameters['_id'] = {
+      description: "회원 id",
+      in: 'query',
+      type: 'number',
+      example: '4'
+    }
+    #swagger.parameters['email'] = {
+      description: "회원 이메일",
+      in: 'query',
+      type: 'string',
+      example: 'u1@market.com'
+    }
+    #swagger.parameters['name'] = {
+      description: "회원 이름<br>정확히 일치하는 이름을 찾습니다.",
+      in: 'query',
+      type: 'string',
+      example: '제이지'
+    }
+    #swagger.parameters['phone'] = {
+      description: "회원 전화번호",
+      in: 'query',
+      type: 'string',
+      example: '01044445555'
+    }
+    #swagger.parameters['type'] = {
+      description: "회원 구분 (user | seller | admin)",
+      in: 'query',
+      type: 'string',
+      example: 'user'
+    }
+    #swagger.parameters['address'] = {
+      description: "회원 주소<br>지정한 검색어가 포함된 주소를 찾습니다.",
+      in: 'query',
+      type: 'string',
+      example: '서울'
+    }
+    #swagger.parameters['custom'] = {
+      description: "custom 검색 조건<br>생일이 11월인 사용자 조회 예시",
+      in: 'query',
+      type: 'string',
+      example: '{\"extra.birthday\":{\"$gte\": \"11\", \"$lt\": \"12\"}}'
+    }
+    #swagger.parameters['page'] = {
+      description: "페이지",
+      in: 'query',
+      type: 'number',
+      example: 2
+    }
+    #swagger.parameters['limit'] = {
+      description: "한 페이지당 항목 수",
+      in: 'query',
+      type: 'number',
+      example: 10
+    }
+    #swagger.parameters['sort'] = {
+      description: "정렬(내림차순: -1, 오름차순: 1)",
+      in: 'query',
+      type: 'string',
+      example: '{\"createdAt\": 1}',
+      default: '{\"createdAt\": -1}'
+    }
+
+    #swagger.responses[200] = {
+      description: '성공',
+      content: {
+        "application/json": {
+          schema: { $ref: "#/components/schemas/userListRes" }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: '서버 에러',
+      content: {
+        "application/json": {
+          schema: { $ref: '#/components/schemas/error500' }
+        }
+      }
+    }
+  */
+
+  try{
+    const userModel = req.model.user;
+    logger.trace(req.query);
+
+    let search = {};
+
+    const _id = req.query._id;
+    const email = req.query.email;
+    const name = req.query.name;
+    const phone = req.query.phone;
+    const type = req.query.type;
+    const address = req.query.address;
+    const custom = req.query.custom;
+
+    if(_id){
+      search['_id'] = Number(_id);
+    }
+    if(email){
+      search['email'] = email;
+    }
+    if(name){
+      search['name'] = name;
+    }
+    if(phone){
+      search['phone'] = phone;
+    }
+    if(type){
+      search['type'] = type;
+    }
+    if(address){
+      const regex = new RegExp(address, 'i');
+      search['address'] = { '$regex': regex };
+    }
+
+    if(custom){
+      search = { ...search, ...JSON.parse(custom) };
+    }
+
+    // 정렬 옵션
+    const sortBy = JSON.parse(req.query.sort || '{}');
+
+    const page = Number(req.query.page || 1);
+    const limit = Number(req.query.limit || 0);
+
+    const result = await userModel.find({ search, sortBy, page, limit });
+    res.json({ ok: 1, ...result });
   }catch(err){
     next(err);
   }
