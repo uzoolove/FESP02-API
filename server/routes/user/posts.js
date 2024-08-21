@@ -562,7 +562,8 @@ router.get('/:_id', jwtAuth.auth('user', true), async function(req, res, next) {
 
   try{
     const postModel = req.model.post;
-    const item = await postModel.findById(Number(req.params._id));
+    const _id = Number(req.params._id);
+    const item = await postModel.findById({ _id, userId: req.user?._id, incView: true });
     if(item){
       // private 게시글일 경우 작성자 또는 share 목록에 등록된 사용자가 아니면 404 응답
       if(item.private && !(item.user._id === req.user?._id || item.share?.includes(req.user?._id))){
@@ -647,7 +648,7 @@ router.patch('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
   try{
     const postModel = req.model.post;
     const _id = Number(req.params._id);
-    const post = await postModel.findById(_id);
+    const post = await postModel.findById({ _id, userId: req.user._id });
     if(post && (req.user.type === 'admin' || post.user._id == req.user._id)){
       const updated = await postModel.update(_id, req.body);
       res.json({ ok: 1, item: updated });
@@ -718,7 +719,7 @@ router.delete('/:_id', jwtAuth.auth('user'), async function(req, res, next) {
   try{
     const postModel = req.model.post;
     const _id = Number(req.params._id);
-    const post = await postModel.findById(_id);
+    const post = await postModel.findById({ _id, userId: req.user._id });
     if(post && (req.user.type === 'admin' || post?.user._id == req.user._id)){
       await postModel.delete(_id);
       res.json({ ok: 1 });
@@ -870,7 +871,7 @@ router.post('/:_id/replies', jwtAuth.auth('user', true),  [
   try{
     const postModel = req.model.post;
     const _id = Number(req.params._id);
-    const post = await postModel.findById(_id);
+    const post = await postModel.findById({ _id, userId: req.user?._id });
     if(post){
       const reply = req.body;
       // reply._id = (_.maxBy(post.replies, '_id')?._id || 0) + 1;
@@ -909,7 +910,7 @@ router.patch('/:_id/replies/:reply_id', jwtAuth.auth('user'), async (req, res, n
     const postModel = req.model.post;
     const _id = Number(req.params._id);
     const reply_id = Number(req.params.reply_id);
-    const post = await postModel.findById(_id);
+    const post = await postModel.findById({ _id, userId: req.user._id });
     const reply = _.find(post?.replies, { _id: reply_id });
     if(post && (req.user.type === 'admin' || reply?.user._id == req.user._id)){
       const item = await postModel.updateReply(_id, reply_id, req.body);
@@ -940,7 +941,7 @@ router.delete('/:_id/replies/:reply_id', jwtAuth.auth('user'), async (req, res, 
     const postModel = req.model.post;
     const _id = Number(req.params._id);
     const reply_id = Number(req.params.reply_id);
-    const post = await postModel.findById(_id);
+    const post = await postModel.findById({ _id, userId: req.user._id });
     const reply = _.find(post?.replies, { _id: reply_id });
     if(post && (req.user.type === 'admin' || reply?.user._id == req.user._id)){
       await postModel.deleteReply(_id, reply_id);

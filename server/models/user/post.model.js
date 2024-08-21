@@ -78,6 +78,53 @@ class PostModel{
           preserveNullAndEmptyArrays: true
         }
       },
+
+      // 북마크 목록
+      {
+        $lookup: {
+          from: "bookmark",
+          let: { productId: "$product_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$target_id", "$$productId"] },
+                    { $eq: ["$type", "post"] } // 게시물에 대한 북마크는 type이 post로 지정됨
+                  ]
+                }
+              }
+            }
+          ],
+          as: "bookmarkItems"
+        }
+      },
+      {
+        $addFields: {
+          bookmarks: { $size: "$bookmarkItems" },
+          myBookmarkId: { // 내가 북마크한 게시물일때 북마크 id
+            $map: {
+              input: {
+                $filter: {
+                  input: "$bookmarkItems",
+                  as: "bookmark",
+                  cond: { $eq: ["$$bookmark.user._id", userId] } // userId가 북마크한 항목 필터링
+                }
+              },
+              as: "bookmark",
+              in: "$$bookmark._id"
+            }
+          }
+        }
+      },
+
+      { 
+        $unwind: {
+          path: "$myBookmarkId",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+
       {
         $project: {
           _id: 1,
@@ -93,6 +140,9 @@ class PostModel{
           updatedAt: 1,
           views: 1,
           tag: 1,
+          // bookmarkItems: 1,
+          myBookmarkId: 1,
+          bookmarks: 1,
           repliesCount: { $cond: { if: { $isArray: '$replies' }, then: { $size: '$replies' }, else: 0 } },
           'product.name': '$product.name',
           // 'product.image': { $cond: { if: { $isArray: '$product.mainImages' }, then: { $arrayElemAt: ['$product.mainImages', 0] }, else: undefined } }
@@ -120,14 +170,11 @@ class PostModel{
   }
 
   // 게시글 상세 조회
-  async findById(_id, justView){
+  async findById({ _id, userId, incView }){
     logger.trace(arguments);
     
     let item;
-    if(justView){ // 처음 조회때만 조회수 증가(댓글 목록 조회를 위해 호출될 경우 조회수 증가 방지)
-      item = await this.db.post.findOne({ _id });
-    }else{
-
+    if(incView){ // 상세 조회때만 조회수 증가(수정, 삭제, 댓글 목록 조회 등을 위해 호출될 경우 조회수 증가 방지)
       await this.db.post.updateOne(
         { _id: _id },
         { $inc: { views: 1 } }
@@ -158,21 +205,62 @@ class PostModel{
             }
           }
         },
+
+        // 북마크 목록
+        {
+          $lookup: {
+            from: "bookmark",
+            let: { productId: "$product_id" },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$target_id", "$$productId"] },
+                      { $eq: ["$type", "post"] } // 게시물에 대한 북마크는 type이 post로 지정됨
+                    ]
+                  }
+                }
+              }
+            ],
+            as: "bookmarkItems"
+          }
+        },
+        {
+          $addFields: {
+            bookmarks: { $size: "$bookmarkItems" },
+            myBookmarkId: { // 내가 북마크한 게시물일때 북마크 id
+              $map: {
+                input: {
+                  $filter: {
+                    input: "$bookmarkItems",
+                    as: "bookmark",
+                    cond: { $eq: ["$$bookmark.user._id", userId] } // userId가 북마크한 항목 필터링
+                  }
+                },
+                as: "bookmark",
+                in: "$$bookmark._id"
+              }
+            }
+          }
+        },
+
+        { 
+          $unwind: {
+            path: "$myBookmarkId",
+            preserveNullAndEmptyArrays: true
+          }
+        },
+
         {
           $project: {
-            "temp_product": 0
+            "temp_product": 0,
+            "bookmarkItems": 0
           }
         }
       ]).next();
-
-      
-
-      // 상품 게시물 조회시 상품 정보를 추가로 가져오기 위해 aggregate로 바꿈
-      // item = await this.db.post.findOneAndUpdate(
-      //   { _id },
-      //   { $inc: { views: 1 } },
-      //   { returnDocument: 'after' } // 업데이트된 문서 반환
-      // );
+    }else{
+      item = await this.db.post.findOne({ _id });
     }
     
     logger.debug(item);
@@ -212,7 +300,7 @@ class PostModel{
   async findReplies({ _id, page=1, limit=0, sortBy }){
     logger.trace(arguments);
     
-    const post = await this.findById(_id, true);
+    const post = await this.findById({ _id });
 
     let list = post.replies || [];
     const totalCount = list.length;
