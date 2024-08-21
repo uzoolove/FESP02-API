@@ -2,7 +2,7 @@ import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
-    version: '1.0.0',
+    version: '2.0.0',
     title: '오픈마켓 API',
     description: `오픈마켓 API Server입니다.<br>
       <a href="/">버전별 변경사항 확인</a>`,
@@ -1114,50 +1114,78 @@ const doc = {
             {
               "user_id": 4,
               "name": "제이지",
-              "image": "user-jayg.webp"
+              "email": "u1@market.com",
+              "image": "/files/00-sample/user-jayg.webp"
             },
             {
               "user_id": 2,
               "name": "네오",
+              "email": "s1@market.com",
               "image": "/files/00-next-level/user-neo.webp"
             }
           ],
           "user": [
             {
-              "_id": 3,
-              "user_id": 4,
-              "type": "user",
-              "target_id": 2,
-              "memo": "단골 셀러",
-              "createdAt": "2024.04.13 01:26:20"
-            }
-          ],
-          "post": [
+              "_id": 19,
+              "memo": "항상 배송도 빨리해주고 좋습니다.",
+              "createdAt": "2024.08.21 09:25:39",
+              "user": {
+                "_id": 2,
+                "name": "네오",
+                "email": "s1@market.com",
+                "image": "/files/00-sample/user-neo.webp",
+                "type": "seller"
+              }
+            },
             {
-              "_id": 4,
-              "user_id": 4,
-              "type": "post",
-              "target_id": 1,
-              "memo": "크기 문의글 북마크",
-              "createdAt": "2024.04.14 09:26:20"
+              "_id": 24,
+              "memo": "항상 배송도 빨리해주고 좋습니다.",
+              "createdAt": "2024.08.21 11:38:38",
+              "user": {
+                "_id": 1,
+                "name": "무지",
+                "email": "admin@market.com",
+                "image": "/files/00-sample/user-muzi.webp",
+                "type": "admin"
+              }
             }
           ],
           "product": [
             {
-              "_id": 1,
-              "user_id": 4,
-              "type": "product",
-              "target_id": 2,
-              "memo": "첫째 크리스마스 선물.",
-              "createdAt": "2024.04.12 19:26:20"
-            },
+              "_id": 22,
+              "memo": "잘 구매했습니다.",
+              "createdAt": "2024.08.21 11:05:28",
+              "product": {
+                "_id": 3,
+                "name": "레고 클래식 라지 조립 박스 10698",
+                "price": 48870,
+                "quantity": 100,
+                "buyQuantity": 99,
+                "mainImages": [
+                  {
+                    "path": "/files/00-sample/sample-classic.jpg",
+                    "name": "sample-classic.jpg",
+                    "originalname": "레고 클래식.jpg"
+                  }
+                ]
+              }
+            }
+          ],
+          "post": [
             {
-              "_id": 2,
-              "user_id": 4,
-              "type": "product",
-              "target_id": 4,
-              "memo": "둘째 생일 선물",
-              "createdAt": "2024.04.14 09:26:20"
+              "_id": 23,
+              "memo": "크기 문의",
+              "createdAt": "2024.08.21 11:05:36",
+              "post": {
+                "_id": 1,
+                "type": "qna",
+                "title": "크기가 얼만만한가요?",
+                "user": {
+                  "_id": 4,
+                  "name": "제이지",
+                  "image": "user-jayg.webp"
+                }
+              }
             }
           ]
         }
