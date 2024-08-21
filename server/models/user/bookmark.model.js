@@ -45,6 +45,7 @@ class BookmarkModel {
           // bookmark
           _id: 1,
           memo: 1,
+          extra: 1,
           createdAt: 1,
 
           // product, user, post 공통
