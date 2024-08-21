@@ -182,6 +182,7 @@ class UserModel{
         $project: { 
           'user.password': 0,
           'user.refreshToken': 0,
+          'user.private': 0,
           'user.postItems': 0,
           'user.bookmark.productItems': 0,
           'user.bookmark.userItems': 0,
