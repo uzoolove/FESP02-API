@@ -83,13 +83,13 @@ class PostModel{
       {
         $lookup: {
           from: "bookmark",
-          let: { productId: "$product_id" },
+          let: { postId: "$_id" },
           pipeline: [
             {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ["$target_id", "$$productId"] },
+                    { $eq: ["$target_id", "$$postId"] },
                     { $eq: ["$type", "post"] } // 게시물에 대한 북마크는 type이 post로 지정됨
                   ]
                 }
@@ -200,6 +200,7 @@ class PostModel{
           $addFields: {
             // 'product' 필드에서 필요한 속성만 포함
             product: {
+              _id: "$temp_product._id",
               name: "$temp_product.name",
               mainImages: "$temp_product.mainImages"
             }
@@ -210,13 +211,13 @@ class PostModel{
         {
           $lookup: {
             from: "bookmark",
-            let: { productId: "$product_id" },
+            let: { postId: "$_id" },
             pipeline: [
               {
                 $match: {
                   $expr: {
                     $and: [
-                      { $eq: ["$target_id", "$$productId"] },
+                      { $eq: ["$target_id", "$$postId"] },
                       { $eq: ["$type", "post"] } // 게시물에 대한 북마크는 type이 post로 지정됨
                     ]
                   }
