@@ -90,7 +90,7 @@ router.post('/:type', [
     const bookmarkInfo = {
       type: req.params.type,
       user_id: req.user._id,
-      target_id: Number(req.params.target_id)
+      target_id: Number(req.body.target_id)
     };
     const bookmark = await bookmarkModel.findOneBy(bookmarkInfo);
     if(bookmark){
