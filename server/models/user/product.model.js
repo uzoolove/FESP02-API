@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import logger from '#utils/logger.js';
 
 class ProductModel {
