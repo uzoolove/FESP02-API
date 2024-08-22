@@ -33,6 +33,11 @@ class UserModel{
   async findBy(query){
     logger.trace(arguments);
     const item = await this.db.user.findOne(query);
+    if(item){
+      const notificationModel = this.model.notification;
+      item.notifications = await notificationModel.getCount(item._id);
+    }
+    
     logger.debug(item);
     return item;
   }

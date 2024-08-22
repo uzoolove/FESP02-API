@@ -8,6 +8,7 @@ import orderRouter from './orders.js';
 import replyRouter from './replies.js';
 import bookmarkRouter from './bookmarks.js';
 import postRouter from './posts.js';
+import notificationRouter from './notifications.js';
 
 const router = express.Router({mergeParams: true});
 
@@ -18,5 +19,6 @@ router.use('/replies', replyRouter);
 router.use('/carts', cartRouter);
 router.use('/bookmarks', jwtAuth.auth('user'), bookmarkRouter);
 router.use('/posts', postRouter);
+router.use('/notifications', notificationRouter);
 
 export default router;

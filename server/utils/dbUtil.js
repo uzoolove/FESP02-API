@@ -30,6 +30,7 @@ for(const clientId of DBConfig.clientIds){
     db.bookmark = db.collection('bookmark');
     db.config = db.collection('config');
     db.post = db.collection('post');
+    db.notification = db.collection('notification');
 
     db.nextSeq = async _id => {
       let result = await db.seq.findOneAndUpdate({ _id }, { $inc: { no: 1 } });

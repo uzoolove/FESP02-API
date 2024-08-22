@@ -17,6 +17,7 @@ import PostModel from '#models/user/post.model.js';
 import ProductModel from '#models/user/product.model.js';
 import ReplyModel from '#models/user/reply.model.js';
 import UserModel from '#models/user/user.model.js';
+import NotificationModel from '#models/user/notification.model.js';
 
 export const models = {};
 for(const clientId of DBConfig.clientIds){
@@ -32,6 +33,7 @@ for(const clientId of DBConfig.clientIds){
   models[clientId].product = new ProductModel(getDB(clientId), models[clientId]);
   models[clientId].reply = new ReplyModel(getDB(clientId), models[clientId]);
   models[clientId].user = new UserModel(getDB(clientId), models[clientId]);
+  models[clientId].notification = new NotificationModel(getDB(clientId), models[clientId]);
 }
 
 function setDBModel(req, res, next){

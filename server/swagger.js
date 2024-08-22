@@ -2,7 +2,7 @@ import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
-    version: '3.0.0',
+    version: '3.1.0',
     title: '오픈마켓 API',
     description: `오픈마켓 API Server입니다.<br>
       <a href="/">버전별 변경사항 확인</a>`,
@@ -69,6 +69,10 @@ const doc = {
     {
       name: '게시판',
       description: '게시판(QnA, 공지 등) 관련 기능',
+    },
+    {
+      name: '알림 메세지',
+      description: '알림 메세지 기능',
     },
     {
       name: '회원 관리',
@@ -1402,6 +1406,58 @@ const doc = {
         }
       },
 
+      notificationListRes: {
+        "ok": 1,
+        "item": [
+          {
+            "_id": 21,
+            "type": "qna",
+            "target_id": 3,
+            "channel": "toast",
+            "content": "3번에게 보내는 메세지 2",
+            "extra": {
+              "lecture_id": 2,
+              "url": "/posts/3"
+            },
+            "user": {
+              "_id": 4,
+              "name": "제이지",
+              "email": "u1@market.com",
+              "image": "/files/00-sample/user-jayg.webp"
+            },
+            "isRead": false,
+            "createdAt": "2024.08.22 13:51:45",
+            "updatedAt": "2024.08.22 13:51:45"
+          },
+          {
+            "_id": 20,
+            "type": "qna",
+            "target_id": 3,
+            "channel": "toast",
+            "content": "3번에게 보내는 메세지",
+            "extra": {
+              "lecture_id": 2,
+              "url": "/posts/3"
+            },
+            "user": {
+              "_id": 4,
+              "name": "제이지",
+              "email": "u1@market.com",
+              "image": "/files/00-sample/user-jayg.webp"
+            },
+            "isRead": false,
+            "createdAt": "2024.08.22 13:31:10",
+            "updatedAt": "2024.08.22 13:31:10"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 2,
+          "total": 5,
+          "totalPages": 3
+        }
+      },
+
       fileUploadRes: {
         "ok": 1,
         "item": [
@@ -1475,7 +1531,34 @@ const doc = {
             ]
           }
         }
-      }
+      },
+
+      createNotification: {
+        type: 'object',
+        properties: {
+          target_id: {
+            type: 'number',
+            description: '메세지를 전달받을 회원 ID'
+          },
+          type: {
+            type: 'string',
+            description: '알림 종류를 구분하는 값'
+          },
+          channel: {
+            type: 'string',
+            description: '알림을 전달하는 방법'
+          },
+          content: {
+            type: 'string',
+            description: '알림 메세지'
+          },
+          extra: {
+            type: 'object',
+            description: '추가 속성들 정의'
+          },
+        },
+        required: ['target_id', 'content']
+      },
 
     },
 
@@ -1492,6 +1575,7 @@ const doc = {
           "address": "서울시 강남구 역삼동 123",
           "createdAt": "2023.11.21 16:25:54",
           "updatedAt": "2023.11.21 16:25:54",
+          "notifications": 2,
           "token": {
             "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjUsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNzAwNTUxNTcyLCJleHAiOjE3MDA1NTIxNzIsImlzcyI6IkZFU1AwMSJ9.TmYTk4w-iQYjPK172AkSuH7587XZPPoFARTdg-fFGgA",
             "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA1NTE1NzIsImV4cCI6MTcwMzE0MzU3MiwiaXNzIjoiRkVTUDAxIn0.FSUXGwl3M5xnKpc_gkzdQfJ1FT_9IzwhO_X0iLHzXcE"
@@ -1558,6 +1642,7 @@ const doc = {
         },
         createdAt: '2024.08.13 14:48:17',
         updatedAt: '2024.08.13 14:48:17',
+        notifications: 1,
         token: {
           accessToken: 'eyJhbGciOiJIUzI1NaIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsInR5cGUiOiJ1c2VyIiwibmFtZSI6Iuygleq4uOyaqSIsImltYWdlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmZQOVpaU1FvVWs3TXRuc2pfU3hnRU1yMHkyZHJ5WUpWbXJ5YTBFci1kZE5TeDBRPXM5Ni1jIiwibG9naW5UeXBlIjoiZ29vZ2xlIiwiaWF0IjoxNzIzNTg1NTQ4LCJleHAiOjE3MjM2NzE5NDgsImlzcyI6IkZFU1AifQ.gBHQ0fnrVASir5wtBvHH92LVCn097QHwUDhphFEb6Zw',
           refreshToken: 'eyJhbGciOiJIUzI1NaIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjM1ODU1NDgsImV4cCI6MTcyNjE3NzU0OCwiaXNzIjoiRkVTUCJ9.DkkHXNjL__wU6Og7mAMuLh86Nio_uBNsS4b9QieNLGU'
@@ -1620,6 +1705,7 @@ const doc = {
         },
         createdAt: '2024.08.13 15:33:54',
         updatedAt: '2024.08.13 15:33:54',
+        notifications: 0,
         token: {
           accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjcsInR5cGUiOiJ1c2VyIiwibmFtZSI6IktpbHlvbmcgSmVvbmciLCJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83NTk5NTY5P3Y9NCIsImxvZ2luVHlwZSI6ImdpdGh1YiIsImlhdCI6MTcyMzU4NTc2NywiZXhwIjoxNzIzNjcyMTY3LCJpc3MiOiJGRVNQIn0.S_Mag8MO7pgO0W7O0y9tbu96JEHY2krBNTFqhyzCyAs',
           refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjM1ODU3NjcsImV4cCI6MTcyNjE3Nzc2NywiaXNzIjoiRkVTUCJ9.XdqGl88qV5-GZsn_kXJXdbO6HYZ5CLB3bNq7uqNLdB0'
@@ -2200,6 +2286,42 @@ const doc = {
         }
       },
 
+      createNotification: {
+        "type": "qna",
+        "target_id": 3,
+        "channel": "toast",
+        "content": "3번에게 보내는 메세지",
+        "extra": {
+          "lecture_id": 2,
+          "url": "/posts/3"
+        }
+      },
+
+      createNotificationRes: {
+        "ok": 1,
+        "item": {
+          "type": "qna",
+          "target_id": 3,
+          "channel": "toast",
+          "content": "3번에게 보내는 메세지",
+          "extra": {
+            "lecture_id": 2,
+            "url": "/posts/3"
+          },
+          "user": {
+            "_id": 4,
+            "name": "제이지",
+            "email": "u1@market.com",
+            "image": "/files/00-sample/user-jayg.webp"
+          },
+          "_id": 20,
+          "isRead": false,
+          "createdAt": "2024.08.22 13:31:10",
+          "updatedAt": "2024.08.22 13:31:10"
+        }
+      },
+
+      
 
       userInfoRes: {
         "ok": 1,
