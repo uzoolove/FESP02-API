@@ -134,7 +134,7 @@ router.get('/', [
       in: 'query',
       type: 'string',
       example: '{\"cost.total\": -1}',
-      default: '{\"createdAt\": -1}'
+      default: '{\"_id\": -1}'
     }
 
     #swagger.responses[200] = {
@@ -186,7 +186,7 @@ try{
   let sortBy = JSON.parse(req.query.sort || '{}');
 
   // 기본 정렬 옵션은 등록일의 내림차순
-  sortBy['createdAt'] = sortBy['createdAt'] || -1; // 내림차순
+  sortBy['_id'] = sortBy['_id'] || -1; // 내림차순
 
   const page = Number(req.query.page || 1);
   const limit = Number(req.query.limit || 0);

@@ -150,8 +150,8 @@ router.get('/products/:_id', [
     // 정렬 옵션
     let sortBy = JSON.parse(req.query.sort || '{}');
 
-    // 기본 정렬 옵션은 등록일의 내림차순
-    sortBy['createdAt'] = sortBy['createdAt'] || -1; // 내림차순
+    // 기본 정렬 옵션은 _id의 내림차순
+    sortBy['_id'] = sortBy['_id'] || -1; // 내림차순
 
     const item = await replyModel.findBy(search, sortBy);
     res.json({ok: 1, item});
