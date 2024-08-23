@@ -5,11 +5,12 @@
  */
 
 import http from 'node:http';
-import socketServer from './socketServer.js';
+import chatServer from './chatServer.js';
 import { Server }  from 'socket.io';
 import app from '../app.js';
 import logger from '../utils/logger.js';
 import config from '#config/index.js';
+import notificationServer from '#bin/notificationServer.js';
 
 
 // require('http').createServer(function(req, res){
@@ -95,4 +96,5 @@ function onListening() {
 
 // socket.io 서버 구동
 const io = new Server(server, { cors: { origin: config.cors.origin } } );
-socketServer(io);
+chatServer(io);
+notificationServer.listen(io);

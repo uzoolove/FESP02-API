@@ -33,7 +33,7 @@ for(const clientId of DBConfig.clientIds){
   models[clientId].product = new ProductModel(getDB(clientId), models[clientId]);
   models[clientId].reply = new ReplyModel(getDB(clientId), models[clientId]);
   models[clientId].user = new UserModel(getDB(clientId), models[clientId]);
-  models[clientId].notification = new NotificationModel(getDB(clientId), models[clientId]);
+  models[clientId].notification = new NotificationModel(clientId, getDB(clientId), models[clientId]);
 }
 
 function setDBModel(req, res, next){
@@ -50,5 +50,9 @@ function setDBModel(req, res, next){
     res.status(400).json({ ok: 0, message: 'client-id 헤더가 없습니다.' });
   }
 }
+
+export const getDBModel = (clientId, collection) => {
+  return models[clientId][collection];
+};
 
 export default setDBModel;

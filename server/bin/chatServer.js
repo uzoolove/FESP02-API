@@ -2,7 +2,7 @@ import logger from '../utils/logger.js';
 import shortid from "shortid";
 
 const server = io => {
-
+  logger.trace('socketServer start');
   const getRooms = () => Object.fromEntries(io.roomList || []);
 
   const getMembers = roomId => Object.fromEntries(io.roomList?.get(roomId)?.memberList || []);
@@ -47,7 +47,8 @@ const server = io => {
     }
   };
 
-  io.of('/coffeechat').on('connection', function(socket){
+  io.of('/00-next-level').on('connection', function(socket){
+    logger.debug('클라이언트 접속', socket.id);
     // 클라이언트 접속 종료시
     socket.on('disconnect', function(){
       leaveRoom(socket);
@@ -63,9 +64,7 @@ const server = io => {
     // socket.on('getMembers', (roomId, callback) => callback(getMembers(roomId)));
 
     // 룸 생성
-    socket.on(
-      "createRoom",
-      ({ user_id, hostName, roomName, parents_option }, callback) => {
+    socket.on("createRoom", function ({ user_id, hostName, roomName, parents_option }) {
         const roomId = shortid.generate();
         io.roomList = io.roomList || new Map();
         io.roomList.set(roomId, {
@@ -80,16 +79,16 @@ const server = io => {
 
         socket.nsp.emit("setRooms", getRooms());
 
-        // // 클라이언트에게 'createRoomResponse' 이벤트를 발생시키고, 채팅방 정보를 보냄
-        // socket.emit("createRoomResponse", {
-        //   success: true,
-        //   roomList: getRooms(),
-        // });
-
-        callback({
+        // 클라이언트에게 'createRoomResponse' 이벤트를 발생시키고, 채팅방 정보를 보냄
+        socket.emit("createRoomResponse", {
           success: true,
           roomList: getRooms(),
         });
+
+        // callback({
+        //   success: true,
+        //   roomList: getRooms(),
+        // });
         // console.log(user_id, hostName, roomName, parents_option, callback);
       }
     );

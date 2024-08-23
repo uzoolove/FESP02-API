@@ -3,7 +3,8 @@ import moment from 'moment-timezone';
 import logger from '#utils/logger.js';
 
 class NotificationModel {
-  constructor(db, model){
+  constructor(clientId, db, model){
+    this.clientId = clientId;
     this.db = db;
     this.model = model;
   }
@@ -22,45 +23,41 @@ class NotificationModel {
     return notification;
   }
 
-  // 읽지 않은 알림 목록 조회
-  async find({ userId, search={}, sortBy={}, page=1, limit=0, setRead=false }){
+  // 지정한 사용자의 읽지 않은 알림 목록 조회
+  async find({ userId, setRead=false }){
     logger.trace(arguments);
     
-    let query = { isRead: false, ...search, target_id: userId };
+    let query = { isRead: false, target_id: userId };
     
-    logger.trace(query);
-
-    const skip = (page-1) * limit;
-
-    const totalCount = await this.db.notification.countDocuments(query);
-    const list = await this.db.notification.find(query).skip(skip).limit(limit).sort(sortBy).toArray();
+    const list = await this.db.notification.find(query).toArray();
 
     if(setRead){ // 조회된 문서에 대해서 읽음 처리
       const updateResult = await this.db.notification.updateMany({ _id: { $in: list.map(doc => doc._id) }}, { $set: { isRead: true } });
       logger.debug(updateResult);
     }
-    const result = { item: list };
-    result.pagination = {
-      page,
-      limit,
-      total: totalCount,
-      totalPages: (limit === 0) ? 1 : Math.ceil(totalCount / limit)
-    };
+    logger.debug(list);
+    return list;
+  }
 
-    logger.debug(list.length);
-    return result;
+  async updateReadState({ userId }){
+    logger.trace(arguments);
+    let query = { target_id: userId };
+
+    const updateResult = await this.db.notification.updateMany(query, { $set: { isRead: true } });
+    logger.debug(updateResult);
+    return updateResult;
   }
 
   // 읽지 않은 알림 수 조회
-  async getCount(userId){
-    logger.trace(arguments);      
-    let query = { isRead: false, target_id: userId };      
+  // async getCount(userId){
+  //   logger.trace(arguments);      
+  //   let query = { isRead: false, target_id: userId };
 
-    const totalCount = await this.db.notification.countDocuments(query);
+  //   const totalCount = await this.db.notification.countDocuments(query);
 
-    logger.debug('읽지 않은 알림 수', totalCount);
-    return totalCount;
-  }
+  //   logger.debug('읽지 않은 알림 수', totalCount);
+  //   return totalCount;
+  // }
 
 }
 

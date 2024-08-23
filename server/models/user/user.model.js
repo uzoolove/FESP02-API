@@ -35,7 +35,7 @@ class UserModel{
     const item = await this.db.user.findOne(query);
     if(item){
       const notificationModel = this.model.notification;
-      item.notifications = await notificationModel.getCount(item._id);
+      item.notifications = await notificationModel.find({ userId: item._id });
     }
     
     logger.debug(item);

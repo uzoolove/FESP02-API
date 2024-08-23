@@ -3,6 +3,7 @@ import { query, body } from 'express-validator';
 
 import validator from '#middlewares/validator.js';
 import jwtAuth from '#middlewares/jwtAuth.js';
+import notificationServer from '#bin/notificationServer.js';
 
 const router = express.Router();
 
@@ -74,7 +75,11 @@ router.post('/', jwtAuth.auth('user'), [
       user.image = req.user.image;
     }
 
-    const item = await notificationModel.create({ ...req.body, user });
+    const notification = { ...req.body, user };
+    const item = await notificationModel.create(notification);
+    const list = await notificationModel.find({ userId: req.body.target_id });
+
+    notificationServer.sendMsg(req.clientId, req.body.target_id, list);
     res.status(201).json({ok: 1, item});
   }catch(err){
     next(err);
@@ -142,24 +147,56 @@ router.get('/', jwtAuth.auth('user'), [
   */
   try{
     const notificationModel = req.model.notification;
-    let search = {};
-    const custom = req.query.custom;
-
-    if(custom){
-      search = { ...JSON.parse(custom) };
-    }
-
-    // 정렬 옵션
-    let sortBy = JSON.parse(req.query.sort || '{}');
-    // 기본 정렬 옵션은 _id의 내림차순
-    sortBy['_id'] = sortBy['_id'] || -1; // 내림차순
-
-    const page = Number(req.query.page || 1);
-    const limit = Number(req.query.limit || 0);
-
-    const result = await notificationModel.find({ userId: req.user._id, search, sortBy, page, limit, setRead: true });
+    const item = await notificationModel.find({ userId: req.user._id, setRead: false });
     
-    res.json({ ok: 1, ...result });
+    res.json({ ok: 1, item });
+  }catch(err){
+    next(err);
+  }
+});
+
+// 내 알림 목록 읽음 상태로 수정
+router.patch('/read', jwtAuth.auth('user'), async function(req, res, next) {
+
+  /*
+    #swagger.tags = ['알림 메세지']
+    #swagger.summary  = '내 알림 상태 수정'
+    #swagger.description = '내 알림 목록을 읽음 상태로 수정합니다.'
+    
+    #swagger.security = [{
+      "Access Token": []
+    }]
+    
+    #swagger.responses[200] = {
+      description: '성공',
+      content: {
+        "application/json": {
+          schema: { $ref: "#/components/schemas/simpleOK" }
+        }
+      }
+    },
+    #swagger.responses[401] = {
+      description: '인증 실패',
+      content: {
+        "application/json": {
+          schema: { $ref: "#/components/schemas/error401" }
+        }
+      }
+    },
+    #swagger.responses[500] = {
+      description: '서버 에러',
+      content: {
+        "application/json": {
+          schema: { $ref: '#/components/schemas/error500' }
+        }
+      }
+    }
+  */
+
+  try{
+    const notificationModel = req.model.notification;
+    await notificationModel.updateReadState({ userId: req.user._id });
+    res.json({ ok: 1 });
   }catch(err){
     next(err);
   }
