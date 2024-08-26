@@ -11,8 +11,9 @@ const listen = io => {
       socket.on('setUserId', async (userId, callback) => {
         logger.debug('setUserId', clientId, userId);
         clients.set(`${clientId}/${userId}`, socket);
-        const notiList = await getDBModel(clientId, 'notification').find({ userId: Number(userId) });
-        callback(notiList);
+        const list = await getDBModel(clientId, 'notification').find({ userId: Number(userId) });
+        sendMsg(clientId, userId, { list });
+        callback();
       });
     });
   });
@@ -31,8 +32,8 @@ const listen = io => {
 const sendMsg = (clientId, userId, msg) => {
   const key = `${clientId}/${userId}`;
   const socket = clients.get(key);
-  logger.debug('find', key, 'in', clients.keys(), ':', !!socket);
-  socket?.emit('notiList', msg);
+  logger.debug('find', key, 'in', clients.keys(), ':', !!socket, msg);
+  socket?.emit('notification', msg);
 };
 
 export default {
