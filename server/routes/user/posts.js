@@ -82,7 +82,7 @@ router.post('/', jwtAuth.auth('user', true), [
     const postModel = req.model.post;
     let user = req.user;
     if(!user){
-      user = { _id: 0, name: '익명' };
+      user = { _id: 0, name: req.body.name || '익명' };
     }
     const item = await postModel.create({ ...req.body, views: 0, user });
     res.status(201).json( {ok: 1, item} );
