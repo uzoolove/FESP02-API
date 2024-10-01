@@ -6,8 +6,9 @@
   "scripts": {
     "dbinit:toyzrus:prod": "cross-env NODE_ENV=production node ./init.js toyzrus 00-sample",
     "dbinit:toyzrus": "cross-env NODE_ENV=local node ./init.js toyzrus 00-sample",
-    "dbinit:team:prod": "cross-env NODE_ENV=production node ./init.js team 00-next-level",
+    "dbinit:team:prod": "cross-env NODE_ENV=production node ./init.js next-level 00-sample",
     "dbinit:team": "cross-env NODE_ENV=local node ./init.js team 00-next-level"
+
   },
   "keywords": [],
   "author": "",
