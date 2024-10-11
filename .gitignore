@@ -3,6 +3,7 @@
 .history
 docs
 /server/api/dbinit/team/
+/server/swagger-output.json
 todo.md
 
 # vscode settings
