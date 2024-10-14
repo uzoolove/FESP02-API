@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FES09-API</title>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', () => {
+      const url = location.href + 'apidocs';
+      const apilink = document.querySelector('#apilink');
+      apilink.setAttribute('href', url);
+      apilink.innerHTML = url;
+    });
+  </script>
+</head>
+
+<body>
+  <h1>FrontEnd School Plus 2기 API Server</h1>
+  <p>API 문서: <a id="apilink"></a></p>
+  <div>
+    <h2>최신 버전: <span>v3.1.0</span></h2>
+  </div>
+  
+  <div>
+    <h2>변경 사항</h2>
+
+    <h3>v3.1.0 2024.08.22</h3>
+    <ul>
+      <li>[알림] 알림 메세지 기능 추가
+        <ul>
+          <li>사용자에게 메세지를 전달하는 기능입니다.</li>
+          <li>이를 응용하면 알림 서비스를 구현할 수 있습니다.
+            <ul>
+              <li>사용자 간에 1:1 메세지 주고 받기</li>
+              <li>내가 작성한 글에 댓글이 달릴 때 알림</li>
+              <li>누군가가 나를 북마크 할 때 알림</li>
+              <li>내 상품이 판매 될 때 알림</li>
+              <li>내가 북마크한 사용자가 새로운 상품(게시물)을 등록할 때 알림</li>
+            </ul>
+          </li>
+          <li>로그인이 완료되면 보내는 응답데이터에 notifications 속성으로 읽지 않은 알림 메세지 건수를 제공합니다.</li>
+          <li>API 참고: <a href="/apidocs/#/알림 메세지/post_notifications_">알림 메세지 등록</a></li>
+          <li>API 참고: <a href="/apidocs/#/알림 메세지/get_notifications_">내 알림 목록 조회</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>v3.0.0 2024.08.21</h3>
+    <ul>
+      <li>[북마크] 북마크 추가 URL, body data 변경
+        <ul>
+          <li>변경 전: <code>/bookmarks/{type}/{target_id}</code></li>
+          <li>변경 후: <code>/bookmarks/{type}</code></li>
+          <li>body에 <code>target_id</code> 필수로 전달</li>
+          <li>API 참고: <a href="/apidocs/#/북마크/post_bookmarks__type_">북마크 추가</a></li>
+        </ul>
+      </li>
+      <li>[게시판] 게시물 목록, 상세 조회시 응답 데이터에 북마크 수, 내가 북마크한 게시물인지 여부 추가
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/게시판/get_posts___id_">게시글 상세</a></li>
+          <li><code>bookmarks</code>: 북마크 수</li>
+          <li><code>myBookmarkId</code>: 내가 북마크한 게시물일 경우 북마크 ID</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>v2.1.0 2024.08.21</h3>
+    <ul>
+      <li>[게시판] 상품에 종속된 게시물(qna 등) 상세조회 결과에 상품명, 상품 이미지 추가
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/게시판/get_posts___id_">게시글 상세</a></li>
+          <li><code>product</code> 속성 추가됨</li>
+        </ul>
+      </li>
+      <li>[상품] 상품 목록, 상세 조회시 평점도 같이 조회
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/상품/get_products_">상품 목록 조회</a></li>
+          <li>API 참고: <a href="/apidocs/#/상품/get_products___id_">상품 상세 조회</a></li>
+          <li><code>rating</code> 속성 추가됨</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>v2.0.0 2024.08.21</h3>
+    <ul>
+      <li>[회원] 지정한 회원의 북마크 목록 조회 시 지정한 사용자를 북마크한 사용자 목록도 추가
+        <ul>
+          <li>
+            API 참고: <a href="/apidocs/#/회원/get_users___id_">회원 조회(모든 속성)</a>
+            <ul>
+              <li><code>bookmarkedBy.users</code>: 지정한 사용자를 북마크한 사용자 수</li>
+            </ul>
+          </li>
+          <li>
+            API 참고: <a href="/apidocs/#/회원/get_users___id__bookmarks">사용자의 모든 북마크 목록 조회</a>
+            <ul>
+              <li><code>byUser</code>: 지정한 사용자를 북마크한 사용자 목록</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>[회원] 관리자만 가능하던 회원 목록 조회 기능을 누구나 조회 가능하도록 수정
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/회원/get_users_">회원 목록 조회</a></li>
+        </ul>
+      </li>
+    </ul>
+
+
+    <h3>v1.0.0 2024.08.20</h3>
+    <ul>
+      <li>[게시판] private 게시물 추가
+        <ul>
+          <li>게시물 등록시 private: true 속성 추가하면 본인만 조회 가능한 게시물로 등록 가능</li>
+          <li>share 속성(배열)에 사용자 id 추가하면 해당 사용자도 게시물 조회 가능</li>
+          <li>게시물 목록 조회시 일반 게시물 + private 게시물(본인의 게시물이거나 공유된 게시물)이 조회됨</li>
+          <li>게시물 상세 조회시 private 게시물일 경우 본인의 게시물이거나 공유된 게시물이 아니면 404 에러 응답</li>
+        </ul>
+      </li>
+      <li>[게시판] 내가 작성한 게시글 목록 조회 기능 추가
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/게시판/get_posts_users">내가 작성한 게시글 목록 조회</a></li>
+        </ul>
+      </li>
+      <li>[게시판] 지정한 사용자가 작성한 게시글 목록 조회, 판매자의 상품에 등록된 게시글 목록 조회시 응답 데이터에 item 속성이 중복으로 적용되던 문제 수정
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/게시판/get_posts_users___id_">지정한 사용자가 작성한 게시글 목록 조회</a></li>
+          <li>API 참고: <a href="/apidocs/#/게시판/get_posts_seller___id_">판매자의 상품에 등록된 게시글 목록 조회</a></li>
+        </ul>
+      </li>
+      <li>[게시판] 댓글 등록시 로그인 하지 않아도 등록 가능하고, content 속성 필수로 전달하도록 수정
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/게시판/post_posts___id__replies">댓글 등록</a></li>
+        </ul>
+      </li>
+      <li>[게시판] 상품 목록 조회의 기본 정렬 기준을 등록일(createdAt)에서 _id로 수정</li>
+    </ul>
+
+    <h3>v0.2.0 2024.08.14</h3>
+    <ul>
+      <li>[회원] 인증 공급자를 통해 로그인 한 후 사용할 회원가입 API 추가<br>
+        * google, github 등의 인증 공급자를 통해 로그인 한 사용자는 최초에 한번 회원가입 API를 통해서 회원가입 요청을 해야 합니다.<br>
+        * 이때는 password가 따로 없기 때문에 기존의 회원가입 API 대신 다음 API를 사용해서 회원 가입 처리를 해주세요.<br>
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/회원/post_users_signup_oauth">http://localhost/apidocs/#/회원/post_users_signup_oauth</a></li>
+          <li>샘플 소스코드 참고: <a href="https://github.com/uzoolove/fesp02-nextlevel/blob/main/src/auth.ts#L140">Next Level 앱의 auth.ts</a></li>
+        </ul>
+        * 인증 공급자에게 전달받은 사용자 정보 이외에 추가적인 정보가 필요하다면 다음의 절차대로 진행하세요.<br>
+        <ul>
+          <li>소셜 로그인이 완료되면 추가 정보를 입력 받는 화면으로 이동한 후 추가 정보를 포함해서 회원가입 요청</li>
+          <li>소셜 로그인이 완료되면 자동으로 회원 가입 시킨 후 추가 정보를 입력 받는 화면으로 이동한 후 추가 정보를 이용해서 회원 정보 수정</li>
+        </ul>
+      </li>
+      <li>[회원] 인증 공급자를 통해 로그인 한 후 사용할 로그인 API 추가
+        <ul>
+          <li>API 참고: <a href="/apidocs/#/회원/post_users_login_with">http://localhost/apidocs/#/회원/post_users_login_with</a></li>
+          <li>샘플 소스코드 참고: <a href="https://github.com/uzoolove/fesp02-nextlevel/blob/main/src/auth.ts#L154">Next Level 앱의 auth.ts</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>v0.1.1 2024.08.09</h3>
+    <ul>
+      <li>[기타]client-id 헤더가 없을 경우 이미지 조회 안되는 문제 수정</li>
+    </ul>
+
+    <h3>v0.1.0 2024.07.06</h3>
+    <ul>
+      <li>최초 배포</li>
+    </ul>
+  </div>
+</body>
+
+</html>

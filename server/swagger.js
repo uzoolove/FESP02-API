@@ -2,7 +2,7 @@ import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
-    version: '3.1.0',
+    version: '1.0.0',
     title: '오픈마켓 API',
     description: `오픈마켓 API Server입니다.<br>
       <a href="/">버전별 변경사항 확인</a>`,
@@ -21,7 +21,7 @@ const doc = {
   },
   servers: [
     {
-      url: 'https://api.fesp.shop',
+      url: 'https://11.fesp.shop',
       description: 'production 테스트'
     },
     {
