@@ -100,4 +100,3 @@ npm run dbinit
 #### 나머지 API
 * FESP 워크스페이스 > Import > https://raw.githubusercontent.com/uzoolove/FES09-API/main/api/samples/OpenMarket.postman_collection.json
   - OpenMarket 컬렉션이 생성되고 테스트용 API가 import됨
-
